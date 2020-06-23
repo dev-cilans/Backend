@@ -22,11 +22,19 @@ ynlp
 ```
 
 ```bash
-$ # Try a post request on this endpoint
-$ curl "http://localhost:8080/score" \
+# Try a post request on the comments endpoint.
+# Returns the top k comments for video specified in data.json.
+$ curl "http://localhost:8080/score/comments" \
 --request POST \
 --header "Content-Type: application/json" \
 --data @data.json
 ```
 
-
+```bash
+# Try a post request on the transcript endpoint.
+# Returns video transcript for specified video.
+$ curl "http://localhost:8080/score/transcript" \
+--request POST \
+--header "Content-Type: application/json" \
+--data @data.json
+```
