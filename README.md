@@ -52,27 +52,24 @@ $ curl "http://localhost:8080/score/transcript" \
 		<th>Response</th>
 	</tr>
 	<tr>
-		<td><pre>POST</pre></td>
-		<td><pre>201</pre></td>
-		<td><pre>http://127.0.0.1:8080/score/comments</pre></td>
+		<td>POST</td>
+		<td>201</td>
+		<td>http://127.0.0.1:8080/score/comments</td>
 		<td>
-			<pre>
+			
 {
 	
-}
-			</pre>
+}	
 		</td>
 	</tr>
 	<tr>
-		<td><pre>POST</pre></td>
-		<td><pre>201</pre></td>
-		<td><pre>http://127.0.0.1:8080/score/transcript</pre></td>
-		<td>
-			<pre>
+		<td>POST</td>
+		<td>201</td>
+		<td>http://127.0.0.1:8080/score/transcript</td>
+		<td>	
 {
 	
-}
-			</pre>
+}	
 		</td>
 	</tr>
 </table>
