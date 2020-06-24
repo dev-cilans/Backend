@@ -1,6 +1,5 @@
 # Backend
 
-This is just a demo
 
 ## Prerequisites
 - Docker
@@ -18,9 +17,9 @@ $ cd Backend/
 # Create service container
 $ docker build --tag ynlp .
 $ docker run --detach \
---name ynlp_demo \
+--name backend \
 --publish 8080:8080 \
-ynlp
+backend
 ```
 
 ## Example
