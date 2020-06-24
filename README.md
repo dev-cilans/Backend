@@ -12,6 +12,8 @@ $ git clone git@github.com:YouTubeNLP/Backend.git
 $ cd Backend/
 ```
 
+## Setup
+
 ```bash
 # Create service container
 $ docker build --tag ynlp .
@@ -20,6 +22,8 @@ $ docker run --detach \
 --publish 8080:8080 \
 ynlp
 ```
+
+## Example
 
 ```bash
 # Try a post request on the comments endpoint.
@@ -38,3 +42,37 @@ $ curl "http://localhost:8080/score/transcript" \
 --header "Content-Type: application/json" \
 --data @data.json
 ```
+
+## API Reference
+<table>
+	<tr>
+		<th>Method</th>
+		<th>Status</th>
+		<th>Url</th>
+		<th>Response</th>
+	</tr>
+	<tr>
+		<td><pre>POST</pre></td>
+		<td><pre>201</pre></td>
+		<td><pre>http://127.0.0.1:8080/score/comments</pre></td>
+		<td>
+			<pre>
+{
+	
+}
+			</pre>
+		</td>
+	</tr>
+	<tr>
+		<td><pre>POST</pre></td>
+		<td><pre>201</pre></td>
+		<td><pre>http://127.0.0.1:8080/score/transcript</pre></td>
+		<td>
+			<pre>
+{
+	
+}
+			</pre>
+		</td>
+	</tr>
+</table>
