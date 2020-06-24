@@ -1,5 +1,6 @@
 # Backend
 
+This is just a demo
 
 ## Prerequisites
 - Docker
@@ -19,7 +20,7 @@ $ docker build --tag ynlp .
 $ docker run --detach \
 --name backend \
 --publish 8080:8080 \
-backend
+ynlp
 ```
 
 ## Example
