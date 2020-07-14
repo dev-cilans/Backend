@@ -1,6 +1,5 @@
 # Backend
 
-This is just a demo
 
 ## Prerequisites
 - Docker
@@ -37,14 +36,15 @@ $ curl "http://localhost:8080/score/comments" \
 ```bash
 # Try a post request on the transcript endpoint.
 # Returns video transcript for specified video.
-$ curl "http://localhost:8080/score/transcript" \
+$ curl "http://localhost:8080/score/transcripts" \
 --request POST \
 --header "Content-Type: application/json" \
 --data @data.json
 ```
 
 ## API Reference
-<table>
+https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
+<!-- <table>
 	<tr>
 		<th>Method</th>
 		<th>Status</th>
@@ -72,4 +72,4 @@ $ curl "http://localhost:8080/score/transcript" \
 }	
 		</td>
 	</tr>
-</table>
+</table> -->
