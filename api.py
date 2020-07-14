@@ -1,6 +1,6 @@
 from flask import Flask, make_response, request, jsonify
-from service.get_comments import get_comments
-from service.get_transcript import get_transcript
+from service.comments import get_comments
+from service.transcripts import get_transcripts
 
 app = Flask(__name__)
 
@@ -8,7 +8,7 @@ app = Flask(__name__)
 def transcript():
 	response = request.json
 	video_id = response["videoID"]
-	transcript_list = get_transcript(video_id)
+	transcript_list = get_transcripts(video_id)
 	return jsonify(results=transcript_list)
 
 @app.route('/score/comments', methods=['POST'])
