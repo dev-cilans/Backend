@@ -1,6 +1,6 @@
 from collections import defaultdict
 import ast
-from .comment_downloader import *
+from comment_downloader import *
 
 # Scrapes the k top comments for a video specified by video_id
 # Code from https://github.com/shahjaidev/NLP_Radicalization_detection/blob/master/get_and_parse_transcript_and_comments.py
