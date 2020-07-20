@@ -5,10 +5,10 @@ from service.transcript import get_transcripts
 app = Flask(__name__)
 
 @app.route('/score/transcripts', methods=['POST'])
-def transcript():
+def transcripts():
 	response = request.json
 	video_id = response["videoID"]
-	transcript_list = get_transcript(video_id)
+	transcript_list = get_transcripts(video_id)
 	return jsonify(results=transcript_list)
 
 @app.route('/score/comments', methods=['POST'])
@@ -16,7 +16,7 @@ def comments():
 	response = request.json
 	video_id = response["videoID"]
 	kTop = response["kTopComments"]
-	comments_list = get_comment(video_id, kTop)
+	comments_list = get_comments(video_id, kTop)
 	return jsonify(results=comments_list)
 
 if __name__ == '__main__':
