@@ -1,3 +1,0 @@
-docker build --tag fastapi_ynlp .
-docker run --publish 80:80 fastapi_ynlp
-
