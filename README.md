@@ -18,7 +18,7 @@ $ git switch -c remotes/origin/fastapi_version
 # Create service container
 $ docker build --tag fastapi_ynlp .
 $ docker run --detach --name fastapi_backend --publish 80:80 fastapi_ynlp
-
+ ```
 ## Example
 
 ```bash
