@@ -9,7 +9,6 @@
 # Setup
 $ https://github.com/YouTubeNLP/Backend.git
 $ cd Backend/
-$ git switch -c remotes/origin/fastapi_version
 ```
 
 ## Setup
@@ -34,32 +33,3 @@ $ curl "http://localhost/score/transcripts" --request POST --header "Content-Typ
 ```
 ## API Reference
 https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
-<!-- <table>
-	<tr>
-		<th>Method</th>
-		<th>Status</th>
-		<th>Url</th>
-		<th>Response</th>
-	</tr>
-	<tr>
-		<td>POST</td>
-		<td>201</td>
-		<td>http://127.0.0.1:8080/score/comments</td>
-		<td>
-			
-{
-	
-}	
-		</td>
-	</tr>
-	<tr>
-		<td>POST</td>
-		<td>201</td>
-		<td>http://127.0.0.1:8080/score/transcript</td>
-		<td>	
-{
-	
-}	
-		</td>
-	</tr>
-</table> -->
