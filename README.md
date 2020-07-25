@@ -32,7 +32,6 @@ $  curl "http://localhost/score/comments" --request POST --header "Content-Type:
 # Returns video transcript for specified video.
 $ curl "http://localhost/score/transcripts" --request POST --header "Content-Type: application/json" --data @data.json
 ```
-![screenshot](output.png)
 ## API Reference
 https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
 <!-- <table>
