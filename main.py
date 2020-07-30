@@ -4,6 +4,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from service.comment import get_comments
 from service.transcript import get_transcripts
+#from service.basic_info import *
 from pydantic import BaseModel
 app = FastAPI()
 
@@ -25,3 +26,21 @@ def comments(item : Item):
 	return JSONResponse(content=comments_list)
 
 
+@app.get("/video/{video_id}")
+def basic_info(video_id : str):
+	video_id = item.videoID
+	basic_info = get_basic_info(video_id)
+	return JSONResponse(content=basic_info)
+
+@app.get("/video/{video_id}/description")
+def description(video_id: str):
+	video_id = item.videoID
+	description = get_description(video_id)
+	return JSONResponse(content=description)
+
+@app.get("/video/{video_id}/keywords")
+def keywords(video_id: str):
+	video_id = item.videoID
+	keywords = get_keywords(video_id)
+	return JSONResponse(content=keywords)
+	
