@@ -4,9 +4,12 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from service.comment import get_comments
 from service.transcript import get_transcripts
-#from service.basic_info import *
+from service.basic_info import get_basic_info
+from service.description import get_description
+from service.keywords import get_keywords
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+
 app = FastAPI()
 origins = [
     "https://youtubenlp.com",
@@ -30,13 +33,15 @@ def transcripts(video_id: str):
 
 @app.get("/video/{video_id}")
 def basic_info(video_id: str):
-	print(video_id)
-	return "response: thumbnails, title, channel name, view, time"
+	basic_info_list = jsonable_encoder(get_basic_info(video_id))
+	return JSONResponse(content=basic_info_list)
+
 @app.get("/video/{video_id}/description")
 def description(video_id: str):
-	print(video_id)
-	return "descriptions"
+	description_list = jsonable_encoder(get_description(video_id))
+	return JSONResponse(content=description_list)
+
 @app.get("/video/{video_id}/keywords")
 def keywords(video_id: str):
-	print(video_id)
-	return "Keywords"
+	keywords_list = jsonable_encoder(get_keywords(video_id))
+	return JSONResponse(content=keywords_list)
