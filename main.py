@@ -26,7 +26,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get('/score/transcripts/{video_id}')
+@app.get('/transcripts/{video_id}')
 async def transcripts(video_id: str):
 	transcript_list = jsonable_encoder(get_transcripts(video_id))
 	return JSONResponse(content=transcript_list)
