@@ -1,49 +1,65 @@
 # Backend
-
+Backend for youtubnlp.com
+![ytnlp-architecture](https://user-images.githubusercontent.com/31156696/89206709-4aedba00-d5d7-11ea-9b9c-b7ec6ad23a45.png)
 
 ## Prerequisites
 - Docker
 - Git
 
+## Setup
 ```bash
-# Setup
-$ https://github.com/YouTubeNLP/Backend.git
+# Get repository
+$ git clone https://github.com/YouTubeNLP/Backend.git
 $ cd Backend/
 ```
-
-## Setup
-
 ```bash
-# Create service container
-$ docker build --tag fastapi_ynlp .
-$ docker run --detach --name fastapi_backend --publish 80:80 fastapi_ynlp
+# Create ynlp image
+$ docker build --tag ynlp .
+# Create backend container
+$ docker run --detach --name backend --publish 80:80 ynlp
  ```
-## Example
+
+## Examples
+| Environment | Example 
+| - | - 
+| `Development` | `http://localhost:80`
+| `Production` | `https://youtubenlp.us-south.cf.appdomain.cloud`
 
 ```bash
-# Returns video transcript for specified video.
-$ curl "http://localhost/score/transcripts/2DG3pMcNNlw" 
+$ # All service endpoints
+$ curl "http://localhost:80/"
+$ curl "https://youtubenlp.us-south.cf.appdomain.cloud/"
 ```
 
-```bash
-#Returns thumbnails,title, channel-name ,view,time.
-$ curl "http://localhost/video/2DG3pMcNNlw" 
-```
+| Parameter | Example 
+| - | - 
+| `video_id` | `1ylleTbizgU`
 
 ```bash
-#Returns description of video
-$ curl "http://localhost/video/2DG3pMcNNlw/description" 
+$ # transcript_service
+$ # Returns list of transcripts from video
+$ curl "{environment}/transcripts/{video_id}"
+```
+```bash
+$ # comment_service
+$ # Returns list of comments from video
+$ curl "{environment}/comments/{video_id}"
+```
+```bash
+$ # video_service details
+$ # Returns various detials related to video
+$ curl "{environment}/video/{video_id}"
+```
+```bash
+$ # video_service description
+$ # Returns the description text of the video
+$ curl "{environment}/video/{video_id}/description"
+```
+```bash
+$ # video_service keywords
+$ # Returns a list of keywords related to video
+$ curl "{environment}/video/{video_id}/keywords"
 ```
 
-```bash
-#Returns keywords 
-$ curl "http://localhost/video/2DG3pMcNNlw/keywords" 
-```
-```bash
-#Returns document of api.
-http://localhost/docs
-#Alternative API documentation
-http://localhost/redoc
-```
 ## API Reference
 https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
