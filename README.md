@@ -47,7 +47,7 @@ $ curl "{environment}/comments/{video_id}"
 ```
 ```bash
 $ # video_service details
-$ # Returns various detials related to video
+$ # Returns various details related to video
 $ curl "{environment}/video/{video_id}"
 ```
 ```bash

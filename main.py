@@ -56,7 +56,7 @@ async def sentiments_details(video_id: str):
 	pass
 
 @app.get("/comments​/{video_id}")
-async def comment(video_id: str):
+async def comments(video_id: str):
     comments = jsonable_encoder(get_comments(video_id))
     return JSONResponse(content=comments)
 
@@ -87,9 +87,19 @@ async def worldcloud(video_id: str):
 @app.get("/")
 async def root(request: Request):
 
-    prod_spec_endpoint = "{base_url}docs".format(
+    """
+    Returns an object with live endpoints details.
+    
+    To quickly look into the current live services from backend.
+
+    Q. We already have /docs, /redoc, README.md and the swagger spec. So why is this required?
+    A. /docs, /redoc, README.md and swagger spec contains the 'mock' spec and won't tell the 
+       services which are live at the moment.
+    """
+
+    prod_generated_endpoint = "{base_url}docs".format(
         base_url=request.url)
-    prod_req_endpoint = "{base_url}redoc".format(
+    prod_testing_endpoint = "{base_url}redoc".format(
         base_url=request.url)
     dev_endpoint = "https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1"
 
@@ -108,7 +118,7 @@ async def root(request: Request):
         "api_specification": {
             "prod": {
                 "description": "Returns generated Specification",
-                "endpoint": [prod_spec_endpoint, prod_req_endpoint]
+                "endpoint": [prod_generated_endpoint, prod_testing_endpoint]
             },
             "dev": {
                 "description": "Returns standard API refrence",
