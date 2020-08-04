@@ -1,6 +1,7 @@
 from fastapi.testclient import TestClient
 import sys
-sys.path.insert(1, '/home/yash/YoutubeNLP/Backend/')
+
+sys.path.insert(1,'/home/yash/YoutubeNLP/Backend/') #Please Change this :P
 
 from main import app
 
