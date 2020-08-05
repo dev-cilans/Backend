@@ -17,3 +17,5 @@ echo $new_ip
 echo $(ss -tulw)
 echo
 echo "docker is running"
+echo
+docker exec -it $con_id pytest
