@@ -15,4 +15,4 @@ jobs:
     - name: Docker run
       run: docker run --detach --name backend --publish 80:80 ynlp
     - name: testing docker
-      run: bash docker_ip.sh
+      run: docker exec backend pytest
