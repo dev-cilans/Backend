@@ -18,4 +18,4 @@ echo $(ss -tulw)
 echo
 echo "docker is running"
 echo
-docker exec -it $con_id pytest
+docker exec $con_id pytest
