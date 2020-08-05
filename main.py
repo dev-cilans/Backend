@@ -5,13 +5,19 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 from service.comment import get_comments
-from service.transcript import get_transcripts
-from service.basic_info import get_basic_info
-from service.description import get_description
-from service.keywords import get_keywords
+from service.video import get_basic_info, get_description, get_keywords
 
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
+
+from apiclient.discovery import build
+
+DEVELOPER_KEY = "AIzaSyC2gP7-BiIDFEEZ9nnRXdnKVAII5mmw2os"
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
+
+youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                    developerKey=DEVELOPER_KEY)
 
 app = FastAPI()
 origins = [
@@ -29,17 +35,17 @@ app.add_middleware(
 
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
-	details = jsonable_encoder(get_basic_info(video_id))
+	details = jsonable_encoder(get_basic_info(video_id, youtube))
 	return JSONResponse(content=details)
 
 @app.get("/video/{video_id}/description")
 async def video_description(video_id: str):
-	description = jsonable_encoder(get_description(video_id))
+	description = jsonable_encoder(get_description(video_id, youtube))
 	return JSONResponse(content=description)
 
 @app.get("/video/{video_id}/keywords")
 async def video_keywords(video_id: str):
-	keywords = jsonable_encoder(get_keywords(video_id))
+	keywords = jsonable_encoder(get_keywords(video_id, youtube))
 	return JSONResponse(content=keywords)
 
 @app.get("/transcripts/{video_id}")
