@@ -10,9 +10,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Docker build tiangolo/uvicorn-gunicorn-fastapi
-      run: docker build . -t fastapi_ynlp
+    - name: Docker build 
+      run: docker build . -t ynlp
     - name: Docker run
-      run: docker run --detach --publish 80:80 fastapi_ynlp
+      run: docker run --detach --name backend --publish 80:80 ynlp
     - name: testing docker
       run: bash docker_ip.sh

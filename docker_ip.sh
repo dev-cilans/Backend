@@ -15,4 +15,5 @@ echo
 new_ip=$(echo $doc | awk '{print $3}')
 echo $new_ip
 echo $(ss -tulw)
-curl http://$new_ip/
+echo
+echo "docker is running"
