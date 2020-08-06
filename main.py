@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 
 from service.comment import get_comments
 from service.transcript import get_transcripts
-from service.video import get_basic_info, get_description, get_keywords
+from service.video import get_details, get_description, get_keywords
 
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
@@ -36,7 +36,7 @@ app.add_middleware(
 
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
-	details = jsonable_encoder(get_basic_info(video_id, youtube))
+	details = jsonable_encoder(get_details(video_id, youtube))
 	return JSONResponse(content=details)
 
 @app.get("/video/{video_id}/description")
