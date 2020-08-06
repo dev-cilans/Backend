@@ -5,6 +5,7 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
 from service.comment import get_comments
+from service.transcript import get_transcripts
 from service.video import get_basic_info, get_description, get_keywords
 
 from pydantic import BaseModel
