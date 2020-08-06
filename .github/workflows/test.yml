@@ -1,11 +1,11 @@
-name: Backed Deployment
+name: Multi threading Load Testing
 
 on:
   push:
-    branch: testing/Testing-scripts
+    branch: master
 
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
 
     steps:
