@@ -1,6 +1,3 @@
-#from bs4 import BeautifulSoup
-#import requests
-
 def get_basic_info(video_id, youtube):
     search_response = youtube.videos().list(
         part="statistics, snippet",
@@ -20,7 +17,7 @@ def get_basic_info(video_id, youtube):
     url = "https://www.youtube.com/watch?v=" + video_id
     source = requests.get(url).text
     bs = BeautifulSoup(source, 'lxml')
-    bs.find_all("div", {"class": "badge-style-type-verified"}): #does not work for some reason
+    # need to figure out how to access the verified badge element
     """
 
     #thumbnails, title, channel name, view, time"
