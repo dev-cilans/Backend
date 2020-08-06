@@ -1,5 +1,5 @@
-from bs4 import BeautifulSoup
-import requests
+#from bs4 import BeautifulSoup
+#import requests
 
 def get_basic_info(video_id, youtube):
     search_response = youtube.videos().list(
