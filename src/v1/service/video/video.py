@@ -1,4 +1,8 @@
-def get_basic_info(video_id, youtube):
+
+
+
+
+def get_details(video_id, youtube):
     search_response = youtube.videos().list(
         part="statistics, snippet",
         id=video_id
@@ -42,7 +46,7 @@ def get_description(video_id, youtube):
     return {"description": description}
 
 
-def get_keywords(video_id,youtube):
+def get_keywords(video_id, youtube):
 
     search_response = youtube.videos().list(
         part="statistics, snippet",
