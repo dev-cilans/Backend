@@ -1,6 +1,6 @@
 import sys
 
-from fastapi import FastAPI,Request,Response
+from fastapi import FastAPI,Request,Response, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
@@ -34,10 +34,29 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class VideoException(Exception):
+    def __init__(self, video_id: str):
+        self.video_id = video_id
+
+
+@app.exception_handler(VideoException)
+async def video_exception_handler(request: Request, exc: VideoException):
+    return JSONResponse(
+        {
+            'error': {
+                'status': 400,
+                'message': f'{exc.video_id} is an invalid video id'
+            }
+        }
+    )
+
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
-	details = jsonable_encoder(get_basic_info(video_id, youtube))
-	return JSONResponse(content=details)
+    try:
+        details = jsonable_encoder(get_basic_info(video_id, youtube))
+    except:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=details)
 
 @app.get("/video/{video_id}/description")
 async def video_description(video_id: str):
