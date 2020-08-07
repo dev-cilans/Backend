@@ -32,7 +32,7 @@ def test_video_details():
     flag = True
     json_response = response.json()
     for keys,keys_from_file in zip(json_response,res_json):
-        if(keys == "viewCount"):
+        if(keys == "meta"):
             continue
         if(keys != keys_from_file or json_response[keys] != res_json[keys_from_file]):
             flag = False

@@ -1,22 +1,30 @@
 # Backend
-Backend for youtubnlp.com
+Backend for https://youtubenlp.com
 ![ytnlp-architecture](https://user-images.githubusercontent.com/31156696/89206709-4aedba00-d5d7-11ea-9b9c-b7ec6ad23a45.png)
 
 ## Prerequisites
 - Docker
 - Git
 
-## Setup
+## Setup (Production)
 ```bash
 # Get repository
-$ git clone https://github.com/YouTubeNLP/Backend.git
-$ cd Backend/
-```
-```bash
+$ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Create ynlp image
 $ docker build --tag ynlp .
 # Create backend container
 $ docker run --detach --name backend --publish 80:80 ynlp
+ ```
+
+## Setup (Development)
+```bash
+# Get repository
+$ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
+# Install all packages locally
+# Some kind of virtual environment is recommened like miniconda or pipenv
+(your-env-name) $ pip install -r requirements.txt
+# Create backend container
+(your-env-name) $ uvicorn main:app
  ```
 
 ## Examples
