@@ -34,19 +34,19 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+#Handles exceptions for invalid video_id
 class VideoException(Exception):
     def __init__(self, video_id: str):
         self.video_id = video_id
 
-
 @app.exception_handler(VideoException)
 async def video_exception_handler(request: Request, exc: VideoException):
     return JSONResponse(
-        {
-            'error': {
-                'status': 400,
-                'message': f'{exc.video_id} is an invalid video id'
-            }
+        status_code=400,
+        content={
+            'status': 400,
+            'error': f'{exc.video_id} is an invalid video url'
         }
     )
 
@@ -60,18 +60,27 @@ async def video_details(video_id: str):
 
 @app.get("/video/{video_id}/description")
 async def video_description(video_id: str):
-	description = jsonable_encoder(get_description(video_id, youtube))
-	return JSONResponse(content=description)
+    try:
+        description = jsonable_encoder(get_description(video_id, youtube))
+    except:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=description)
 
 @app.get("/video/{video_id}/keywords")
 async def video_keywords(video_id: str):
-	keywords = jsonable_encoder(get_keywords(video_id, youtube))
-	return JSONResponse(content=keywords)
+    try:
+        keywords = jsonable_encoder(get_keywords(video_id, youtube))
+    except:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=keywords)
 
 @app.get("/transcripts/{video_id}")
 async def transcripts(video_id: str):
-	transcripts = jsonable_encoder(get_transcripts(video_id))
-	return JSONResponse(content=transcripts)
+    transcripts = jsonable_encoder(get_transcripts(video_id))
+    # wrong video_url is handled by get_transcripts
+    if transcripts is None:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=transcripts)
 
 @app.get("/sentiments/{video_id}/score")
 async def sentiments(video_id: str):
@@ -83,7 +92,11 @@ async def sentiments_details(video_id: str):
 
 @app.get("/comments​/{video_id}")
 async def comments(video_id: str):
-    comments = jsonable_encoder(get_comments(video_id))
+    try:
+        # getting comments is still not working
+        comments = jsonable_encoder(get_comments(video_id))
+    except:
+        raise VideoException(video_id=video_id)
     return JSONResponse(content=comments)
 
 @app.get("/comments/{video_id}/controversial")
