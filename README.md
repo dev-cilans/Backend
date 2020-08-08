@@ -4,52 +4,69 @@ Backend for https://youtubenlp.com
 
 ## Directory Structure
 ```bash
+$ find . -type d -name  "__pycache__" -exec rm -r {} +
 $ tree
 .
-|-- Dockerfile # build for production
+|-- AUTHORS # project auhors for github.com/YouTubeNLP/Backend
+|-- CHANGELOG # documentation update for new changes
+|-- Dockerfile # docker image for production
 |-- Procfile # init file for ibm cloud
 |-- README.md # documentation
+|-- client_secret_357836004333-pjm620fvcjukarm238q5va992hcv1n6b.apps.googleusercontent.com.json
 |-- requirements.txt # all packages required in the project
 |-- runtime.txt # current project python version
-|-- spec # api specification
-|   `-- swagger.yml # swagger genereate openapi spec
+|-- setup.py # setup current project
+|-- spec # openapi-3.0 specification
+|   `-- swagger.yml
 |-- src
-|   |-- __init__.py
-|   |-- main.py # init point for backend
-|   |-- v1 # version 1 of services
+|   |-- main.py # entrypoint for server
+|   |-- routes.py
+|   |-- settings.py
+|   |-- v1
 |   |   |-- __init__.py
-|   |   `-- service # all services
-|   |       |-- comment
-|   |       |   `-- __init__.py
-|   |       |   `-- comment.py
-|   |       |-- emotion
-|   |       |   `-- __init__.py
+|   |   `-- service
+|   |       |-- Comment
+|   |       |   |-- __init__.py
+|   |       |   |-- comment.py
+|   |       |   `-- comment_downloader.py
+|   |       |-- Emotion
+|   |       |   |-- __init__.py
 |   |       |   `-- emotion.py
-|   |       |-- lda
-|   |       |   `-- __init__.py
+|   |       |-- Lda
+|   |       |   |-- __init__.py
 |   |       |   `-- lda.py
-|   |       |-- ner
-|   |       |   `-- __init__.py
+|   |       |-- Ner
+|   |       |   |-- __init__.py
 |   |       |   `-- ner.py
-|   |       |-- sentiment
-|   |       |   `-- __init__.py
+|   |       |-- Sentiment
+|   |       |   |-- __init__.py
 |   |       |   `-- sentiment.py
-|   |       |-- video # return 
-|   |       |   `-- __init__.py
+|   |       |-- Transcript
+|   |       |   |-- __init__.py
+|   |       |   `-- transcript.py
+|   |       |-- Video
+|   |       |   |-- __init__.py
 |   |       |   `-- video.py
-|   |       `-- world-cloud
-|   |           `-- __init__.py
-|   |       |   `-- world_cloud.py
+|   |       |-- WordCloud
+|   |       |   |-- __init__.py
+|   |       |   `-- word_cloud.py
+|   |       `-- __init__.py
 |   `-- v2
-|       |-- __init__.py
-|       `-- service
-|           `-- __init__.py
-`-- tests # tests/mocks for backend
+|       `-- __init__.py
+`-- tests # tests/mocks
     |-- integration # integration tests with nlp and frontend repo
-    |-- test-requirements.txt # all packages required for project tests 
+    |-- test-requirements.txt # all packages required for testing
     `-- unit # sepearte tests for each service
+        |-- async_test_using_multithreading.py
+        |-- test_main.py
+        `-- test_response
+            |-- keywords_response.txt
+            |-- root_response.txt
+            |-- video_description.txt
+            |-- video_details.txt
+            `-- video_transcript.txt
 
-16 directories, 26 files
+17 directories, 41 files
 ```
 
 ## Prerequisites
@@ -63,7 +80,7 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Create ynlp image
 $ docker build --tag ynlp .
 # Create backend container
-$ docker run --detach --name backend --publish 80:80 ynlp
+$ docker run --detach --name ynlp-backend-prod --publish 80:80 ynlp
  ```
 
 ## Setup (Development)
@@ -74,7 +91,7 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Some kind of virtual environment is recommened like miniconda or virtualenv
 (your-env-name) $ pip install -r requirements.txt
 # Create backend container
-(your-env-name) $ uvicorn main:app
+(your-env-name) $ uvicorn src.main:app --reload
  ```
 
 ## Examples
@@ -94,7 +111,7 @@ $ curl "api.youtubenlp.com/" # production (under construction)
 | Parameter | Example 
 | - | - 
 | `video_id` | `1ylleTbizgU`
-| `environment` | `http://localhost:80/`
+| `environment` | `localhost`
 
 ```bash
 $ # transcript_service

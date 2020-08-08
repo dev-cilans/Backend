@@ -1,11 +1,19 @@
 
 
+class Video:
+  """ Description of Service """
+  
+  def __init__(self, youtube_api_key: str, video_id: str):
+    """ Description of Method """
+    self.youtube_api_key = youtube_api_key
+    self.video_id = video_id
 
+  def get_details(self):
+    """ thumbnails, title, channel name, view, time """
 
-def get_details(video_id, youtube):
-    search_response = youtube.videos().list(
-        part="statistics, snippet",
-        id=video_id
+    search_response = self.youtube_api_key.videos().list(
+        part='statistics, snippet',
+        id=self.video_id
     ).execute()
 
     title = search_response['items'][0]['snippet']['title']
@@ -13,6 +21,7 @@ def get_details(video_id, youtube):
     channelTitle = search_response['items'][0]['snippet']['channelTitle']
     publishedAt = search_response['items'][0]['snippet']['publishedAt'] 
     viewCount = search_response['items'][0]['statistics']['viewCount']
+    channelVerified = None
 
     """
     TODO - 'channelVerified' field is not included in Youtube API
@@ -24,36 +33,38 @@ def get_details(video_id, youtube):
     # need to figure out how to access the verified badge element
     """
 
-    #thumbnails, title, channel name, view, time"
-    return { 'title': title, 
-             'thumbnails': thumbnails, 
-             'meta': {
-                 'channelTitle': channelTitle, 
-                 'publishedAt': publishedAt, 
-                 'viewCount': viewCount 
-              }
-             }
+    return {
+      'title': title, 
+      'thumbnails': thumbnails, 
+      'meta': {
+        'channelTitle': channelTitle, 
+        'publishedAt': publishedAt, 
+        'viewCount': viewCount,
+        'channelVerified': channelVerified
+      }
+    }
 
-def get_description(video_id, youtube):
-    
-    search_response = youtube.videos().list(
-        part="statistics, snippet",
-        id=video_id
+  def get_description(self):
+    """ Description of Method """
+      
+    search_response = self.youtube_api_key.videos().list(
+        part='statistics, snippet',
+        id=self.video_id
     ).execute()
 
     description = search_response['items'][0]['snippet']['description']
 
-    return {"description": description}
+    return { 'description': description }
 
 
-def get_keywords(video_id, youtube):
+  def get_keywords(self):
+    """ Description of Method """
 
-    search_response = youtube.videos().list(
-        part="statistics, snippet",
-        id=video_id
+    search_response = self.youtube_api_key.videos().list(
+        part='statistics, snippet',
+        id=self.video_id
     ).execute()
 
     keywords = search_response['items'][0]['snippet']['tags']
 
-    return {"keywords": keywords}
-
+    return { 'keywords': keywords }

@@ -4,23 +4,15 @@ from fastapi import FastAPI,Request,Response, HTTPException
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 
-from v1.service.comment.comment import get_comments
-from v1.service.transcript import get_transcripts
-from v1.service.video.video import get_basic_info, get_description, get_keywords
-
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
 from apiclient.discovery import build
 
-DEVELOPER_KEY = "AIzaSyC2gP7-BiIDFEEZ9nnRXdnKVAII5mmw2os"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
-
-youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                    developerKey=DEVELOPER_KEY)
+from v1.service import Comment, Transcript, Video
 
 app = FastAPI()
+
 origins = [
     "https://youtubenlp.com",
     "http://localhost", "https://localhost",
@@ -34,6 +26,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+DEVELOPER_KEY = "AIzaSyC2gP7-BiIDFEEZ9nnRXdnKVAII5mmw2os"
+YOUTUBE_API_SERVICE_NAME = "youtube"
+YOUTUBE_API_VERSION = "v3"
+
+youtube_api_key = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
+                    developerKey=DEVELOPER_KEY)
 
 #Handles exceptions for invalid video_id
 class VideoException(Exception):
@@ -52,32 +50,36 @@ async def video_exception_handler(request: Request, exc: VideoException):
 
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
+    video = Video(youtube_api_key, video_id)
     try:
-        details = jsonable_encoder(get_basic_info(video_id, youtube))
+        details = jsonable_encoder(video.get_details())
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=details)
 
 @app.get("/video/{video_id}/description")
 async def video_description(video_id: str):
+    video = Video(youtube_api_key, video_id)
     try:
-        description = jsonable_encoder(get_description(video_id, youtube))
+        description = jsonable_encoder(video.get_description())
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=description)
 
 @app.get("/video/{video_id}/keywords")
 async def video_keywords(video_id: str):
+    video = Video(youtube_api_key, video_id)
     try:
-        keywords = jsonable_encoder(get_keywords(video_id, youtube))
+        keywords = jsonable_encoder(video.get_keywords())
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=keywords)
 
 @app.get("/transcripts/{video_id}")
 async def transcripts(video_id: str):
-    transcripts = jsonable_encoder(get_transcripts(video_id))
-    # wrong video_url is handled by get_transcripts
+    transcript = Transcript(video_id)
+    transcripts = jsonable_encoder(transcript.get_list())
+    # wrong video_url is handled by get_list
     if transcripts is None:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=transcripts)
@@ -92,9 +94,10 @@ async def sentiments_details(video_id: str):
 
 @app.get("/comments​/{video_id}")
 async def comments(video_id: str):
+    comment = Comment(video_id)
     try:
-        # getting comments is still not working
-        comments = jsonable_encoder(get_comments(video_id))
+        # TODO: fix comment service
+        comments = jsonable_encoder(comment.get_list())
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=comments)
