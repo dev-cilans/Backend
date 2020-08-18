@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from apiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video
+from v1.service import Comment, Transcript, Video, Ner
 
 app = FastAPI()
 
@@ -110,9 +110,10 @@ async def controversial(video_id: str):
 async def emotions(video_id: str):
 	pass
 
-@app.get("/ner​/{video_id}")
+@app.get("/ner/{video_id}")
 async def ner(video_id: str):
-	pass
+    video_ner = Ner(video_id)
+    return video_ner.get_ner()
 
 @app.get("/ner/{video_id}/targeted")
 async def ner_targeted(video_id: str):
