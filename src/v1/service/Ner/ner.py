@@ -3,7 +3,7 @@ import argparse
 import spacy
 from nerd import ner
       
-class Ner():
+class Ner:
 	def __init__(self,video_id):
 		self.video_id = video_id
 	# function to get transcripts
