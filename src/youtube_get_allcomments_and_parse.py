@@ -1,4 +1,4 @@
-from service.comments.comments_helper import build_initial_request, parse_result
+from v1.service.Comment.comments_helper import build_initial_request, parse_result
 
 all_comments=list()
 
@@ -11,6 +11,3 @@ def main():
     print(len(all_comments))
 
 main()
-
-
-
