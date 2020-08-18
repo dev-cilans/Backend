@@ -16,3 +16,5 @@ jobs:
       run: docker run --detach --name backend --publish 80:80 ynlp
     - name: testing docker
       run: docker exec backend pytest
+    - name: test
+      run: echo "testing"
