@@ -96,8 +96,8 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # For Local Testing
 $ pytest 
 # For Docker Testing
-$ docker build -t ynlp .
-$ docker --detach --name ynlp-backend-prod --publish 80:80 ynlp
+$ docker build -t ynlp .\
+$ docker --detach --name ynlp-backend-prod --publish 80:80 ynlp\
 $ docker exec ynlp-backend-prod pytest
 
 
