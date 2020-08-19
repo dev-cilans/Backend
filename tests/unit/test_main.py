@@ -5,7 +5,7 @@ import sys
 try:
     sys.path.insert(1, 'src/')
 except:
-    pass
+    print('Python path can't be set')
 from main import app
 client = TestClient(app)
 def test_root():
