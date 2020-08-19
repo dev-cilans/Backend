@@ -93,6 +93,13 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Create backend container
 (your-env-name) $ uvicorn src.main:app --reload
  ```
+# For Local Testing
+$ pytest 
+# For Docker Testing
+$ docker build -t ynlp .\
+$ docker --detach --name ynlp-backend-prod --publish 80:80 ynlp\
+$ docker exec ynlp-backend-prod pytest
+
 
 ## Examples
 | Environment | Host 

@@ -1,31 +1,35 @@
 from fastapi.testclient import TestClient
 import json
 import base64
-
+import sys
+try:
+    sys.path.insert(1, 'src/')
+except:
+    print('Python path can't be set')
 from main import app
 client = TestClient(app)
 def test_root():
-    res = open('/app/test/unit/test_response/root_response.txt','r').read().strip()
+    res = open('tests/unit/test_response/root_response.txt','r').read().strip()
     response = client.get("/")
     assert response.status_code==200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_keywords():
-    res = open('/app/test/unit/test_response/keywords_response.txt','r').read().strip()
+    res = open('tests/unit/test_response/keywords_response.txt','r').read().strip()
     response = client.get("/video/2DG3pMcNNlw/keywords")
     assert response.status_code == 200
     assert base64.b64encode(response.content) == base64.b64encode(res.encode())
 def test_description():
-    res = open('/app/test/unit/test_response/video_description.txt','r').read().strip()
+    res = open('tests/unit/test_response/video_description.txt','r').read().strip()
     response = client.get("/video/2DG3pMcNNlw/description")
     assert response.status_code == 200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_transcript():
-    res = open('/app/test/unit/test_response/video_transcript.txt','r').read().strip()
+    res = open('tests/unit/test_response/video_transcript.txt','r').read().strip()
     response = client.get("/transcripts/2DG3pMcNNlw")
     assert response.status_code == 200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_video_details():
-    res = open('/app/test/unit/test_response/video_details.txt','r').read().strip()
+    res = open('tests/unit/test_response/video_details.txt','r').read().strip()
     res_json = json.loads(res)
     response = client.get("/video/2DG3pMcNNlw")
     assert response.status_code == 200
@@ -52,6 +56,12 @@ def test_emotions():
 def test_lda():
         response = client.get("/lda​/2DG3pMcNNlw")
         assert response.status_code == 200
+def test_ner():
+    #response = client.get("/ner/RqcjBLMaWCg")
+    #res = open('tests/unit/test_response/ner_test.txt','r').read().strip()
+    #assert response.status_code == 200
+    #assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
+    pass
 def test_ner_targeted():
         response = client.get("/ner/2DG3pMcNNlw/targeted")
         assert response.status_code == 200
