@@ -7,6 +7,7 @@ class Test(threading.Thread):
             'http://localhost/video/2DG3pMcNNlw', 
             'http://localhost/video/2DG3pMcNNlw/keywords',
             'http://localhost/video/2DG3pMcNNlw/description',
+	    'http://localhost/ner/2DG3pMcNNlw',
         ]
         threading.Thread.__init__(self)
         self.threadID = threadID
