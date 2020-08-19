@@ -113,7 +113,11 @@ async def emotions(video_id: str):
 @app.get("/ner/{video_id}")
 async def ner(video_id: str):
     video_ner = Ner(video_id)
-    return video_ner.get_ner()
+    try:
+        Ner = jsonable_encoder(video_ner.get_ner())
+    except:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=Ner)
 
 @app.get("/ner/{video_id}/targeted")
 async def ner_targeted(video_id: str):
