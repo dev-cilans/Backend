@@ -114,10 +114,10 @@ async def emotions(video_id: str):
 async def ner(video_id: str):
     video_ner = Ner(video_id)
     try:
-        Ner = jsonable_encoder(video_ner.get_ner())
+        ners = jsonable_encoder(video_ner.get_ner())
     except:
         raise VideoException(video_id=video_id)
-    return JSONResponse(content=Ner)
+    return JSONResponse(content=ners)
 
 @app.get("/ner/{video_id}/targeted")
 async def ner_targeted(video_id: str):
@@ -160,6 +160,8 @@ async def root(request: Request):
         base_url=request.url)
     keywords_endpoint = "{base_url}video/{{video_id}}{{/keywords}}".format(
         base_url=request.url)
+    ner_endpoint = "{base_url}ner/{{video_id}}".format(
+        base_url=request.url)
 
     return {
         "api_specification": {
@@ -193,6 +195,10 @@ async def root(request: Request):
             "keywords": {
                 "description": "Returns a list of keywords related to video",
                 "endpoint": keywords_endpoint
+            },
+            "Ner_service": {
+                "description": "Returns name entity recognition  (NER) (also known as entity identification, entity chunking and entity extraction)",
+                "endpoint": ner_endpoint
             }
         }
     }
