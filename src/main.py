@@ -114,7 +114,12 @@ async def emotions(video_id: str):
 async def ner(video_id: str):
     video_ner = Ner(video_id)
     try:
-        ners = jsonable_encoder(video_ner.get_ner())
+        ners = { "video_id":video_id}
+        ners_list = video_ner.get_ner()
+        for (entity, label) in ners_list:
+            i = 1
+            ners[entity] = { "label"+str(i):label}
+            i = i + 1
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=ners)
