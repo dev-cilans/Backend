@@ -93,6 +93,13 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Create backend container
 (your-env-name) $ uvicorn src.main:app --reload
  ```
+# For Local Testing
+$ pytest 
+# For Docker Testing
+$ docker build -t ynlp .\
+$ docker --detach --name ynlp-backend-prod --publish 80:80 ynlp\
+$ docker exec ynlp-backend-prod pytest
+
 
 ## Examples
 | Environment | Host 
@@ -138,6 +145,10 @@ $ # video_service keywords
 $ # Returns a list of keywords related to video
 $ curl "{environment}/video/{video_id}/keywords"
 ```
-
+```bash
+$ # ner_service 
+$ # Returns Name Entity Recognition
+$ curl "{environment}/ner/{video_id}"
+```
 ## API Reference
 https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
