@@ -145,6 +145,10 @@ $ # video_service keywords
 $ # Returns a list of keywords related to video
 $ curl "{environment}/video/{video_id}/keywords"
 ```
-
+```bash
+$ # ner_service 
+$ # Returns Name Entity Recognition
+$ curl "{environment}/ner/{video_id}"
+```
 ## API Reference
 https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1

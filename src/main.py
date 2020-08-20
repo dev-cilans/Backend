@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from apiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video
+from v1.service import Comment, Transcript, Video, Ner
 
 app = FastAPI()
 
@@ -110,9 +110,41 @@ async def controversial(video_id: str):
 async def emotions(video_id: str):
 	pass
 
-@app.get("/ner​/{video_id}")
+@app.get("/ner/{video_id}")
 async def ner(video_id: str):
-	pass
+    video_ner = Ner(video_id)
+    try:
+        ners = { "video_id":video_id,"entity":[]}
+        ners_list = video_ner.get_ner()
+        label_list = []
+        j = 1
+        for (_,label) in ners_list:
+            Available = False
+            for i in range(len(label_list)):
+                if(label == label_list[i]):
+                    Available = True
+                    break
+            if(not Available):
+                label_list.append(label)
+                ners["entity"].append({ "label"+str(j):label,"text":[]})
+                j = j + 1
+        for (text,label) in ners_list:
+            label_num = 0
+            for k in range (len(label_list)):
+                if(label_list[k] == label):
+                    label_num = k+1
+                    break
+            text_Available = False
+            for a in range(len(ners["entity"][label_num-1]["text"])):
+                    if(text == ners["entity"][label_num-1]["text"][a]):
+                        text_Available = True
+                        break
+            if(not text_Available):
+                ners["entity"][label_num-1]["text"].append(text)
+
+    except:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=ners)
 
 @app.get("/ner/{video_id}/targeted")
 async def ner_targeted(video_id: str):
@@ -155,6 +187,8 @@ async def root(request: Request):
         base_url=request.url)
     keywords_endpoint = "{base_url}video/{{video_id}}{{/keywords}}".format(
         base_url=request.url)
+    ner_endpoint = "{base_url}ner/{{video_id}}".format(
+        base_url=request.url)
 
     return {
         "api_specification": {
@@ -188,6 +222,10 @@ async def root(request: Request):
             "keywords": {
                 "description": "Returns a list of keywords related to video",
                 "endpoint": keywords_endpoint
+            },
+            "Ner_service": {
+                "description": "Returns name entity recognition  (NER) (also known as entity identification, entity chunking and entity extraction)",
+                "endpoint": ner_endpoint
             }
         }
     }
