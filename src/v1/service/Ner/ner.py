@@ -1,17 +1,3 @@
-"""#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-
-Created on Thu Jun 25 18:40:12 2020
-@author: jaisi8631
-
-
-# import libraries
-from youtube_transcript_api import YouTubeTranscriptApi
-import argparse
-import spacy
-from spacy import displacy
-from nerd import ner
-      
 # https://github.com/YouTubeNLP/NLP/tree/master/ner
 from youtube_transcript_api import YouTubeTranscriptApi
 import argparse
