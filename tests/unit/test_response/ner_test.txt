@@ -1,1 +1,1 @@
-[["2U","CARDINAL"],["2U","CARDINAL"],["2U","CARDINAL"],["2U","CARDINAL"],["Comes 2U Cupid","PRODUCT"],["2U","CARDINAL"],["2U","CARDINAL"],["2U","CARDINAL"],["2U","CARDINAL"],["2","CARDINAL"],["2U","CARDINAL"],["2U","CARDINAL"],["2U","CARDINAL"]]
+{"video_id":"RqcjBLMaWCg","entity":[{"label1":"CARDINAL","text":["2U","2"]},{"label2":"PRODUCT","text":["Comes 2U Cupid"]}]}
