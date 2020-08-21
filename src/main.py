@@ -90,22 +90,21 @@ async def sentiments(video_id: str):
 
 @app.get("/sentiments/{video_id}")
 async def sentiments_details(video_id: str):
-	pass
-
-@app.get("/comments​/{video_id}")
-async def comments(video_id: str):
-    comment = Comment(video_id)
-
-    try:
-        comments = jsonable_encoder(comment.get_all_comments())
-    except:
-        raise VideoException(video_id=video_id)
-
-    return JSONResponse(content=comments)
+    pass
 
 @app.get("/comments/{video_id}/controversial")
 async def controversial(video_id: str):
 	pass
+
+@app.get("/comments/{video_id}")
+async def comments(video_id: str):
+    comment = Comment(video_id)
+    comments = jsonable_encoder(comment.get_all_comments())
+
+    if comments is None:
+        raise VideoException(video_id=video_id)
+
+    return JSONResponse(content=comments)
 
 @app.get("/emotions/{video_id}/score")
 async def emotions(video_id: str):
