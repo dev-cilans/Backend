@@ -148,15 +148,15 @@ async def ner(video_id: str):
 
 @app.get("/ner/{video_id}/targeted")
 async def ner_targeted(video_id: str):
-	pass
+    pass
 
 @app.get("/lda​/{video_id}")
 async def lda(video_id: str):
-	pass
+    pass
 
 @app.get("/world-cloud​/{video_id}")
 async def worldcloud(video_id: str):
-	pass
+    pass
 
 @app.get("/")
 async def root(request: Request):
