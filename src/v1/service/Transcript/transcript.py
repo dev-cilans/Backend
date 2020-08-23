@@ -3,7 +3,7 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import spacy
 class Transcript:
 	def __init__(self,video_id):
-		""" Return transscript of the video """
+		""" Return transcript of the video """
 		self.video_id = video_id
 	# function to get lines
 	def get_transcript(self,video_id):
