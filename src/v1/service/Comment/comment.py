@@ -3,15 +3,13 @@ import ast
 from .comment_downloader import *
 from googleapiclient.discovery import build
 
-API_KEY = "AIzaSyDEyoZhTj3wh0B3r3evEmIxI-4g2Aa9-dE"
-service = build('youtube', 'v3', developerKey=API_KEY)
-
 class Comment:
 	""" Description of Service """
 
-	def __init__(self, video_id: str):
+	def __init__(self, youtube_api_key: str, video_id: str):
 		""" Description of Method """
 		self.video_id = video_id
+		self.service = youtube_api_key
 
 	def get_list(self, kTopComments=100):
 		# Code from https://github.com/shahjaidev/NLP_Radicalization_detection/blob/master/get_and_parse_transcript_and_comments.py
@@ -31,7 +29,7 @@ class Comment:
 			return(all_text)
 
 	def build_initial_request(self, video_id):
-		request = service.commentThreads().list(part="snippet", videoId=video_id)
+		request = self.service.commentThreads().list(part="snippet", videoId=video_id)
 		return request
 
 	def parse_page(self, result, all_comments):
@@ -48,7 +46,7 @@ class Comment:
 		# 50 comments only to avoid quotaExceeded error
 		while result.get('nextPageToken', False) and len(all_comments) <= 50:
 			self.parse_page(result, all_comments)
-			request = service.commentThreads().list(
+			request = self.service.commentThreads().list(
 				part="snippet",
 				videoId=video_id,
 				pageToken=result.get('nextPageToken')

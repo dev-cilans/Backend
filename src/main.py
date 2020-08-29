@@ -98,7 +98,7 @@ async def controversial(video_id: str):
 
 @app.get("/comments/{video_id}")
 async def comments(video_id: str):
-    comment = Comment(video_id)
+    comment = Comment(youtube_api_key, video_id)
     comments = jsonable_encoder(comment.get_all_comments())
 
     if comments is None:

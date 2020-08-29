@@ -48,7 +48,7 @@ def test_sentiments_details():
     response = client.get("/sentiments/2DG3pMcNNlw")
     assert response.status_code == 200
 def test_comment():
-    res = open('tests/unit/test_response/video_comment.txt','r').read().strip()
+    res = open('tests/unit/test_response/video_comment.txt','rb').read().strip()
     response = client.get("/comments/2DG3pMcNNlw")
     assert response.status_code == 200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
