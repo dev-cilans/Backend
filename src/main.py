@@ -157,10 +157,13 @@ async def lda(video_id: str):
 @app.get('/word-cloud/{video_id}')
 async def worldcloud(video_id: str):
     word_Count = WordCloud(video_id)
-    wordC = { "video_id":video_id,"cloud":[]}
-    word_list = word_Count.get()
-    for (word,ferquency) in word_list:
-        wordC['cloud'].append({'word':word,'frequency':ferquency})
+    try:
+        wordC = { "video_id":video_id,"cloud":[]}
+        word_list = word_Count.get()
+        for (word,frequency) in word_list:
+            wordC['cloud'].append({'word':word,'frequency':frequency})
+    except:
+        raise VideoException(video_id=video_id)
     return JSONResponse(content=wordC)
 
 @app.get("/")
