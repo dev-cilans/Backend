@@ -41,9 +41,11 @@ def test_video_details():
         if(keys != keys_from_file or json_response[keys] != res_json[keys_from_file]):
             flag = False
     assert flag
-def test_worldcloud():
-        response = client.get("/world-cloud​/2DG3pMcNNlw")
-        assert response.status_code == 200
+def test_wordcloud():
+    response = client.get("/word-cloud/SLsTskih7_I")
+    assert response.status_code == 200
+    res = open('tests/unit/test_response/wordCount_response.txt','r').read().strip()
+    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_sentiments_details():
         response = client.get("/sentiments/2DG3pMcNNlw")
         assert response.status_code == 200
@@ -54,7 +56,7 @@ def test_emotions():
         response = client.get("/emotions/2DG3pMcNNlw/score")
         assert response.status_code == 200
 def test_lda():
-        response = client.get("/lda​/2DG3pMcNNlw")
+        response = client.get("/lda/2DG3pMcNNlw")
         assert response.status_code == 200
 def test_ner():
     response = client.get("/ner/RqcjBLMaWCg")

@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from apiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video, Ner
+from v1.service import Comment, Transcript, Video, Ner, WordCloud
 
 app = FastAPI()
 
@@ -150,13 +150,18 @@ async def ner(video_id: str):
 async def ner_targeted(video_id: str):
 	pass
 
-@app.get("/lda​/{video_id}")
+@app.get("/lda/{video_id}")
 async def lda(video_id: str):
 	pass
 
-@app.get("/world-cloud​/{video_id}")
+@app.get('/word-cloud/{video_id}')
 async def worldcloud(video_id: str):
-	pass
+    word_Count = WordCloud(video_id)
+    wordC = { "video_id":video_id,"cloud":[]}
+    word_list = word_Count.get()
+    for (word,ferquency) in word_list:
+        wordC['cloud'].append({'word':word,'frequency':ferquency})
+    return JSONResponse(content=wordC)
 
 @app.get("/")
 async def root(request: Request):
@@ -188,6 +193,8 @@ async def root(request: Request):
     keywords_endpoint = "{base_url}video/{{video_id}}{{/keywords}}".format(
         base_url=request.url)
     ner_endpoint = "{base_url}ner/{{video_id}}".format(
+        base_url=request.url)
+    word_cloud = "{base_url}word-cloud/{{video_id}}".format(
         base_url=request.url)
 
     return {
@@ -226,6 +233,10 @@ async def root(request: Request):
             "Ner_service": {
                 "description": "Returns name entity recognition  (NER) (also known as entity identification, entity chunking and entity extraction)",
                 "endpoint": ner_endpoint
+            },
+            "Word-Cloud": {
+                "description": "Return Words frequency",
+                "endpoint": word_cloud
             }
         }
     }
