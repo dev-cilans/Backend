@@ -25,7 +25,7 @@ def test_description():
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_transcript():
     res = open('tests/unit/test_response/video_transcript.txt','r').read().strip()
-    response = client.get("/transcripts/2DG3pMcNNlw")
+    response = client.get("/transcripts/1ylleTbizgU")
     assert response.status_code == 200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_video_details():
