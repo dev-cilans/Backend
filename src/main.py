@@ -155,7 +155,7 @@ async def lda(video_id: str):
 	pass
 
 @app.get('/word-cloud/{video_id}')
-async def worldcloud(video_id: str):
+async def wordcloud(video_id: str):
     word_Count = WordCloud(video_id)
     try:
         wordC = { "video_id":video_id,"cloud":[]}
