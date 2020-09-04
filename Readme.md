@@ -1,6 +1,7 @@
 # Backend
-Backend for https://youtubenlp.com
-![ytnlp-architecture](https://user-images.githubusercontent.com/31156696/89206709-4aedba00-d5d7-11ea-9b9c-b7ec6ad23a45.png). If you're a developer checkout the [Development Docs](./Development.md).
+Backend for https://youtubenlp.com. If you're a developer checkout the [Development Docs](./Development.md)
+![ytnlp-architecture](https://user-images.githubusercontent.com/31156696/89206709-4aedba00-d5d7-11ea-9b9c-b7ec6ad23a45.png)
+
 ## Prerequisites
 - Docker
 - Git
