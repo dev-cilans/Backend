@@ -80,7 +80,6 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
  ```
 *Project is served at http://localhost:8000/*
 
-
 ## Tests
 ```bash
 $ # local
