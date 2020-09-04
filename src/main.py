@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
-from apiclient.discovery import build
+from googleapiclient.discovery import build
 
 from v1.service import Comment, Transcript, Video, Ner, WordCloud
 
@@ -90,21 +90,21 @@ async def sentiments(video_id: str):
 
 @app.get("/sentiments/{video_id}")
 async def sentiments_details(video_id: str):
-	pass
-
-@app.get("/comments​/{video_id}")
-async def comments(video_id: str):
-    comment = Comment(video_id)
-    try:
-        # TODO: fix comment service
-        comments = jsonable_encoder(comment.get_list())
-    except:
-        raise VideoException(video_id=video_id)
-    return JSONResponse(content=comments)
+    pass
 
 @app.get("/comments/{video_id}/controversial")
 async def controversial(video_id: str):
 	pass
+
+@app.get("/comments/{video_id}")
+async def comments(video_id: str):
+    comment = Comment(youtube_api_key, video_id)
+    comments = jsonable_encoder(comment.get_all_comments())
+
+    if comments is None:
+        raise VideoException(video_id=video_id)
+
+    return JSONResponse(content=comments)
 
 @app.get("/emotions/{video_id}/score")
 async def emotions(video_id: str):
@@ -148,11 +148,11 @@ async def ner(video_id: str):
 
 @app.get("/ner/{video_id}/targeted")
 async def ner_targeted(video_id: str):
-	pass
+    pass
 
 @app.get("/lda/{video_id}")
 async def lda(video_id: str):
-	pass
+    pass
 
 @app.get('/word-cloud/{video_id}')
 async def wordcloud(video_id: str):
@@ -168,14 +168,13 @@ async def wordcloud(video_id: str):
 
 @app.get("/")
 async def root(request: Request):
-
     """
     Returns an object with live endpoints details.
-    
+
     To quickly look into the current live services from backend.
 
     Q. We already have /docs, /redoc, README.md and the swagger spec. So why is this required?
-    A. /docs, /redoc, README.md and swagger spec contains the 'mock' spec and won't tell the 
+    A. /docs, /redoc, README.md and swagger spec contains the 'mock' spec and won't tell the
        services which are live at the moment.
     """
 
@@ -243,4 +242,3 @@ async def root(request: Request):
             }
         }
     }
-

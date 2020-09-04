@@ -47,26 +47,31 @@ def test_wordcloud():
     res = open('tests/unit/test_response/wordCount_response.txt','r').read().strip()
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_sentiments_details():
-        response = client.get("/sentiments/2DG3pMcNNlw")
-        assert response.status_code == 200
+    response = client.get("/sentiments/2DG3pMcNNlw")
+    assert response.status_code == 200
+def test_comment():
+    res = open('tests/unit/test_response/video_comment.txt','rb').read().strip()
+    response = client.get("/comments/2DG3pMcNNlw")
+    assert response.status_code == 200
+    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_controversial():
-        response = client.get("/comments/2DG3pMcNNlw/controversial")
-        assert response.status_code == 200
+    response = client.get("/comments/2DG3pMcNNlw/controversial")
+    assert response.status_code == 200
 def test_emotions():
-        response = client.get("/emotions/2DG3pMcNNlw/score")
-        assert response.status_code == 200
+    response = client.get("/emotions/2DG3pMcNNlw/score")
+    assert response.status_code == 200
 def test_lda():
-        response = client.get("/lda/2DG3pMcNNlw")
-        assert response.status_code == 200
+    response = client.get("/lda/2DG3pMcNNlw")
+    assert response.status_code == 200
 def test_ner():
     response = client.get("/ner/RqcjBLMaWCg")
     res = open('tests/unit/test_response/ner_test.txt','r').read().strip()
     assert response.status_code == 200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 def test_ner_targeted():
-        response = client.get("/ner/2DG3pMcNNlw/targeted")
-        assert response.status_code == 200
+    response = client.get("/ner/2DG3pMcNNlw/targeted")
+    assert response.status_code == 200
 
 def test_sentiments_score():
-        response = client.get("/sentiments/2DG3pMcNNlw/score")
-        assert response.status_code == 200
+    response = client.get("/sentiments/2DG3pMcNNlw/score")
+    assert response.status_code == 200
