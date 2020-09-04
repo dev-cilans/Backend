@@ -1,6 +1,6 @@
-# Backend
-Backend for https://youtubenlp.com
-![ytnlp-architecture](https://user-images.githubusercontent.com/31156696/89206709-4aedba00-d5d7-11ea-9b9c-b7ec6ad23a45.png)
+
+
+
 
 ## Directory Structure
 ```bash
@@ -69,86 +69,40 @@ $ tree
 17 directories, 41 files
 ```
 
-## Prerequisites
-- Docker
-- Git
-
-## Setup (Production)
-```bash
-# Get repository
-$ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
-# Create ynlp image
-$ docker build --tag ynlp .
-# Create backend container
-$ docker run --detach --name ynlp-backend-prod --publish 80:80 ynlp
- ```
-
 ## Setup (Development)
 ```bash
 # Get repository
 $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Install all packages locally
 # Some kind of virtual environment is recommened like miniconda or virtualenv
-(your-env-name) $ pip install -r requirements.txt
+(your-env-name) $ pip install -r dev-requirements.txt
+# Install spacy models
+(your-env-name) $ python -m spacy download en_core_web_sm
 # Create backend container
-(your-env-name) $ uvicorn src.main:app --reload
+(your-env-name) $ uvicorn src.main:app --host=0.0.0.0 --reload
  ```
-# For Local Testing
-$ pytest 
-# For Docker Testing
+*Project is served at http://localhost:8000/*
+
+
+## Tests
+```bash
+$ # local
+$ pytest
+```
+```bash
+$ # docker
 $ docker build -t ynlp .\
 $ docker --detach --name ynlp-backend-prod --publish 80:80 ynlp\
 $ docker exec ynlp-backend-prod pytest
-
-
-## Examples
-| Environment | Host 
-| - | - 
-| `Development` | `http://localhost:80`
-| `Staging` | `https://youtubenlp.us-south.cf.appdomain.cloud`
-| `Production` | `https://api.youtubenlp.com`
-
+```
 ```bash
-$ # All service endpoints
-$ curl "http://localhost:80/" # development
-$ curl "https://youtubenlp.us-south.cf.appdomain.cloud/" # staging
-$ curl "api.youtubenlp.com/" # production (under construction)
+$ # load test
+$ python tests/load/async_test_using_multithreading.py
 ```
 
-| Parameter | Example 
-| - | - 
-| `video_id` | `1ylleTbizgU`
-| `environment` | `localhost`
 
-```bash
-$ # transcript_service
-$ # Returns list of transcripts from video
-$ curl "{environment}/transcripts/{video_id}"
-```
-```bash
-$ # comment_service
-$ # Returns list of comments from video
-$ curl "{environment}/comments/{video_id}"
-```
-```bash
-$ # video_service details
-$ # Returns various details related to video
-$ curl "{environment}/video/{video_id}"
-```
-```bash
-$ # video_service description
-$ # Returns the description text of the video
-$ curl "{environment}/video/{video_id}/description"
-```
-```bash
-$ # video_service keywords
-$ # Returns a list of keywords related to video
-$ curl "{environment}/video/{video_id}/keywords"
-```
-```bash
-$ # ner_service 
-$ # Returns Name Entity Recognition
-$ curl "{environment}/ner/{video_id}"
-```
-## API Reference
-https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
+
+
+
+
+

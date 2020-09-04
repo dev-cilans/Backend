@@ -24,7 +24,7 @@ class Transcript:
 		          return(None)
 	# function to segment sentences using spacy library
 	def spacy_segmentation(self,document):
-	    nlp = spacy.load('en_core_web_lg')
+	    nlp = spacy.load('en_core_web_sm')
 	    doc = nlp(document)
 	    seg_transcript = []
 	    for sent in doc.sents:
