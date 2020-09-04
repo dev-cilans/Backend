@@ -3,22 +3,25 @@
 
 
 ## Directory Structure
+
 ```bash
 $ find . -type d -name  "__pycache__" -exec rm -r {} +
 $ tree
 .
-|-- AUTHORS # project auhors for github.com/YouTubeNLP/Backend
-|-- CHANGELOG # documentation update for new changes
-|-- Dockerfile # docker image for production
-|-- Procfile # init file for ibm cloud
-|-- README.md # documentation
-|-- client_secret_357836004333-pjm620fvcjukarm238q5va992hcv1n6b.apps.googleusercontent.com.json
-|-- requirements.txt # all packages required in the project
-|-- runtime.txt # current project python version
-|-- setup.py # setup current project
+|-- AUTHORS
+|-- CHANGELOG
+|-- Development.md
+|-- Dockerfile
+|-- Procfile
+|-- Readme.md
+|-- dev-requirements.txt
+|-- requirements.txt
+|-- runtime.txt
+|-- setup.py
 |-- spec # openapi-3.0 specification
 |   `-- swagger.yml
 |-- src
+|   |-- __init__.py
 |   |-- main.py # entrypoint for server
 |   |-- routes.py
 |   |-- settings.py
@@ -26,47 +29,31 @@ $ tree
 |   |   |-- __init__.py
 |   |   `-- service
 |   |       |-- Comment
-|   |       |   |-- __init__.py
-|   |       |   |-- comment.py
-|   |       |   `-- comment_downloader.py
 |   |       |-- Emotion
-|   |       |   |-- __init__.py
-|   |       |   `-- emotion.py
 |   |       |-- Lda
-|   |       |   |-- __init__.py
-|   |       |   `-- lda.py
 |   |       |-- Ner
-|   |       |   |-- __init__.py
-|   |       |   `-- ner.py
 |   |       |-- Sentiment
-|   |       |   |-- __init__.py
-|   |       |   `-- sentiment.py
 |   |       |-- Transcript
-|   |       |   |-- __init__.py
-|   |       |   `-- transcript.py
 |   |       |-- Video
-|   |       |   |-- __init__.py
-|   |       |   `-- video.py
 |   |       |-- WordCloud
-|   |       |   |-- __init__.py
-|   |       |   `-- word_cloud.py
 |   |       `-- __init__.py
 |   `-- v2
 |       `-- __init__.py
-`-- tests # tests/mocks
+`-- tests
     |-- integration # integration tests with nlp and frontend repo
-    |-- test-requirements.txt # all packages required for testing
+    |-- load
+    |   `-- async_test_using_multithreading.py
     `-- unit # sepearte tests for each service
-        |-- async_test_using_multithreading.py
         |-- test_main.py
         `-- test_response
             |-- keywords_response.txt
+            |-- ner_test.txt
             |-- root_response.txt
+            |-- video_comment.txt
             |-- video_description.txt
             |-- video_details.txt
-            `-- video_transcript.txt
-
-17 directories, 41 files
+            |-- video_transcript.txt
+            `-- wordCount_response.txt
 ```
 
 ## Setup (Development)
