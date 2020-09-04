@@ -59,12 +59,14 @@ $ tree
 ## Secrets
 1. Create a [new project](https://console.developers.google.com/projectcreate) in the [Google Developers Console](https://console.developers.google.com).
 2. Enable [YouTube Data API v3](https://console.developers.google.com/apis/library/youtube.googleapis.com?id=125bab65-cfb6-4f25-9826-4dcc309bc508).
-3. [Obtain API Key credentials](https://console.developers.google.com/apis/credentials) so your application can submit API requests.
-5. Create a `.env` file in the root diretory of project and paste the two key there:
+3. Create two [API Key credentials](https://console.developers.google.com/apis/credentials) so your application can submit API requests.
+5. Create a `.env` file in the root diretory of project and paste the keys there:
 ```bash
+cat > .env << EOF
 ENVIRONMENT=developement
 API_KEY=<your-secret-api-key>
-TEST_KEY=<your-secret-api-key>
+TEST_KEY=<your-secret-test-key>
+EOF
 ```
 
 ## Setup (Development)
