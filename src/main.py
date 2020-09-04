@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video, Ner, WordCloud
+from .v1.service import Comment, Transcript, Video, Ner, WordCloud
 
 app = FastAPI()
 
