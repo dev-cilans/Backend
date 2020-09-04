@@ -57,16 +57,15 @@ $ tree
 ```
 
 ## Secrets
-1. Create a [new project](https://console.developers.google.com/projectcreate) in the [Google Developers Console](https://console.developers.google.com)
-2. Enable [YouTube Data API v3](https://console.developers.google.com/apis/library/youtube.googleapis.com?id=125bab65-cfb6-4f25-9826-4dcc309bc508)
-3. [Obtain API Key credentials](https://console.developers.google.com/apis/credentials) so your application can submit API requests
-5. Create a `.env` file in the root diretory of project and paste the key there
+1. Create a [new project](https://console.developers.google.com/projectcreate) in the [Google Developers Console](https://console.developers.google.com).
+2. Enable [YouTube Data API v3](https://console.developers.google.com/apis/library/youtube.googleapis.com?id=125bab65-cfb6-4f25-9826-4dcc309bc508).
+3. [Obtain API Key credentials](https://console.developers.google.com/apis/credentials) so your application can submit API requests.
+5. Create a `.env` file in the root diretory of project and paste the two key there:
 ```bash
 ENVIRONMENT=developement
 API_KEY=<your-secret-api-key>
-TEST_KEY=<secret-api-key>
+TEST_KEY=<your-secret-api-key>
 ```
-*dm me for TEST_KEY*
 
 ## Setup (Development)
 ```bash
@@ -80,16 +79,22 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
  ```
 *Project is served at http://localhost:8000/*
 
+## Code Style
+> TODO
+We use `pylint` for code formatting. Setup a precommit hook like this:
+```bash
+$ mv .git/hooks/pre-commit.sample .git/hooks/pre-commit
+$ cat > .git/hooks/pre-commit << EOF
+#!/usr/bin/env bash
+git-pylint-commit-hook
+EOF
+$ chmod +x .git/hooks/pre-commit
+```
+
 ## Tests
 ```bash
 $ # local
 $ pytest
-```
-```bash
-$ # docker
-$ docker build -t ynlp .\
-$ docker --detach --name ynlp-backend-prod --publish 80:80 ynlp\
-$ docker exec ynlp-backend-prod pytest
 ```
 ```bash
 $ # load test
