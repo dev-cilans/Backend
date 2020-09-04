@@ -1,1 +1,1 @@
-route_base = '/api/v1'
+route_base = "/api/v1"
