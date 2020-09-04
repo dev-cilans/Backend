@@ -1,6 +1,3 @@
-from collections import defaultdict
-import ast
-from .comment_downloader import *
 from googleapiclient.discovery import build
 
 class Comment:

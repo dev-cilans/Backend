@@ -1,3 +1,33 @@
+
+# Comment Service
+google-api-python-client
+
+# Emotion Service
+
+
+# Lda Service
+
+
+# Ner Service
+
+
+# Sentiment Service
+
+
+# Transcript Service
+
+
+# Video Service
+
+
+# WordCloud Service
+
+
+
+
+
+
+
 absl-py==0.9.0
 apiclient==1.0.4
 appdirs==1.4.3

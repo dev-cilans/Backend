@@ -10,13 +10,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from googleapiclient.discovery import build
 
 from .v1.service import Comment, Transcript, Video, Ner, WordCloud
+from settings import *
 
 app = FastAPI()
 
 origins = [
     "https://youtubenlp.com",
     "http://localhost", "https://localhost",
-    "http://localhost:80", "https://localhost:80",
+    "http://localhost:8000", "https://localhost:8000",
 ]
 
 app.add_middleware(
@@ -26,15 +27,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-DEVELOPER_KEY = "AIzaSyC2gP7-BiIDFEEZ9nnRXdnKVAII5mmw2os"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
 
-youtube_api_key = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-                    developerKey=DEVELOPER_KEY)
+yt_api_config = build(
+    serviceName="youtube", 
+    version="v3", 
+    developerKey=settings.api_key
+)
 
-#Handles exceptions for invalid video_id
 class VideoException(Exception):
+    """ Handles exceptions for invalid video_id """
     def __init__(self, video_id: str):
         self.video_id = video_id
 
@@ -50,7 +51,7 @@ async def video_exception_handler(request: Request, exc: VideoException):
 
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
-    video = Video(youtube_api_key, video_id)
+    video = Video(yt_api_config, video_id)
     try:
         details = jsonable_encoder(video.get_details())
     except:
@@ -59,7 +60,7 @@ async def video_details(video_id: str):
 
 @app.get("/video/{video_id}/description")
 async def video_description(video_id: str):
-    video = Video(youtube_api_key, video_id)
+    video = Video(yt_api_config, video_id)
     try:
         description = jsonable_encoder(video.get_description())
     except:
@@ -68,7 +69,7 @@ async def video_description(video_id: str):
 
 @app.get("/video/{video_id}/keywords")
 async def video_keywords(video_id: str):
-    video = Video(youtube_api_key, video_id)
+    video = Video(yt_api_config, video_id)
     try:
         keywords = jsonable_encoder(video.get_keywords())
     except:
@@ -98,7 +99,7 @@ async def controversial(video_id: str):
 
 @app.get("/comments/{video_id}")
 async def comments(video_id: str):
-    comment = Comment(youtube_api_key, video_id)
+    comment = Comment(yt_api_config, video_id)
     comments = jsonable_encoder(comment.get_all_comments())
 
     if comments is None:
@@ -156,15 +157,15 @@ async def lda(video_id: str):
 
 @app.get('/word-cloud/{video_id}')
 async def wordcloud(video_id: str):
-    word_Count = WordCloud(video_id)
+    wc = WordCloud(video_id)
     try:
-        wordC = { "video_id":video_id,"cloud":[]}
-        word_list = word_Count.get()
-        for (word,frequency) in word_list:
-            wordC['cloud'].append({'word':word,'frequency':frequency})
+        data = { "video_id": video_id, "cloud": [] }
+        word_list = wc.get()
+        for (word, frequency) in word_list:
+            data['cloud'].append({'word':word,'frequency':frequency})
     except:
         raise VideoException(video_id=video_id)
-    return JSONResponse(content=wordC)
+    return JSONResponse(content=data)
 
 @app.get("/")
 async def root(request: Request):
@@ -177,68 +178,50 @@ async def root(request: Request):
     A. /docs, /redoc, README.md and swagger spec contains the 'mock' spec and won't tell the
        services which are live at the moment.
     """
-
-    prod_generated_endpoint = "{base_url}docs".format(
-        base_url=request.url)
-    prod_testing_endpoint = "{base_url}redoc".format(
-        base_url=request.url)
-    dev_endpoint = "https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1"
-
-    transcripts_endpoint = "{base_url}transcripts/{{video_id}}".format(
-        base_url=request.url)
-    comments_endpoint = "{base_url}comments/{{video_id}}?q={{k_top_comments}}{{&type, order}}".format(
-        base_url=request.url)
-    details_endpoint = "{base_url}video/{{video_id}}".format(
-        base_url=request.url)
-    description_endpoint = "{base_url}video/{{video_id}}{{/description}}".format(
-        base_url=request.url)
-    keywords_endpoint = "{base_url}video/{{video_id}}{{/keywords}}".format(
-        base_url=request.url)
-    ner_endpoint = "{base_url}ner/{{video_id}}".format(
-        base_url=request.url)
-    word_cloud = "{base_url}word-cloud/{{video_id}}".format(
-        base_url=request.url)
-
+    base_url = request.url
     return {
         "api_specification": {
             "prod": {
                 "description": "Returns generated Specification",
-                "endpoint": [prod_generated_endpoint, prod_testing_endpoint]
+                "endpoint": [
+                    f"{base_url}docs", 
+                    f"{base_url}redoc"
+                ]
             },
             "dev": {
                 "description": "Returns standard API refrence",
-                "endpoint": dev_endpoint
+                "endpoint": "https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1"
             }
         },
         "transcript_service": {
             "description": "Returns list of transcripts from video",
-            "endpoint": transcripts_endpoint
+            "endpoint": f"{base_url}transcripts/{{video_id}}"
         },
         "comment_service": {
             "description": "Returns list of comments from video",
-            "endpoint": comments_endpoint
+            "endpoint": f"{base_url}comments/{{video_id}}?q={{k_top_comments}}"
         },
         "video_service": {
             "description": "Returns various video information",
             "details": {
                 "description": "Returns various detials related to video",
-                "endpoint": details_endpoint
+                "endpoint": f"{base_url}video/{{video_id}}"
             },
             "description": {
                 "description": "Returns the description text of the video",
-                "endpoint": description_endpoint
+                "endpoint": f"{base_url}video/{{video_id}}{{/description}}"
             },
             "keywords": {
                 "description": "Returns a list of keywords related to video",
-                "endpoint": keywords_endpoint
+                "endpoint": f"{base_url}video/{{video_id}}{{/keywords}}"
             },
             "Ner_service": {
                 "description": "Returns name entity recognition  (NER) (also known as entity identification, entity chunking and entity extraction)",
-                "endpoint": ner_endpoint
+                "endpoint": f"{base_url}ner/{{video_id}}"
             },
             "Word-Cloud": {
                 "description": "Return Words frequency",
-                "endpoint": word_cloud
+                "endpoint": f"{base_url}word-cloud/{{video_id}}"
             }
         }
     }
