@@ -75,8 +75,6 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Install all packages locally
 # Some kind of virtual environment is recommened like miniconda or virtualenv
 (your-env) $ pip install -r dev-requirements.txt
-# Install spacy models
-(your-env) $ python -m spacy download en_core_web_sm
 # Create backend container
 (your-env) $ uvicorn src.main:app --host=0.0.0.0 --reload
  ```

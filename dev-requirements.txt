@@ -1,33 +1,3 @@
-
-# Comment Service
-google-api-python-client
-
-# Emotion Service
-
-
-# Lda Service
-
-
-# Ner Service
-
-
-# Sentiment Service
-
-
-# Transcript Service
-
-
-# Video Service
-
-
-# WordCloud Service
-
-
-
-
-
-
-
 absl-py==0.9.0
 apiclient==1.0.4
 appdirs==1.4.3
@@ -50,7 +20,9 @@ cymem==2.0.3
 deepsegment==2.3.1
 distlib==0.3.0
 distro==1.4.0
+docopt==0.6.2
 docutils==0.15.2
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
 fastapi==0.60.0
 gast==0.3.3
 gensim==3.8.3
@@ -93,6 +65,7 @@ opt-einsum==3.3.0
 packaging==20.3
 pandas==1.1.0
 pep517==0.8.2
+pip-tools==5.3.1
 plac==1.1.3
 pluggy==0.13.1
 preshed==3.0.2
@@ -107,6 +80,7 @@ pydload==1.0.8
 pyparsing==2.4.6
 pytest==6.0.1
 python-dateutil==2.8.1
+python-dotenv==0.14.0
 python-utils==2.4.0
 pytoml==0.1.21
 pytz==2020.1
@@ -145,6 +119,7 @@ webencodings==0.5.1
 websockets==8.1
 Werkzeug==1.0.1
 wrapt==1.12.1
+yarg==0.1.9
 youtube-transcript-api==0.3.1
 zope.event==4.4
 zope.interface==5.1.0
