@@ -73,7 +73,7 @@ TEST_KEY=<your-secret-api-key>
 $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 # Install all packages locally
 # Some kind of virtual environment is recommened like miniconda or virtualenv
-(your-env) $ pip install -r dev-requirements.txt
+(your-env) $ pip install -r requirements-dev.txt
 # Create backend container
 (your-env) $ uvicorn src.main:app --host=0.0.0.0 --reload
  ```
@@ -82,15 +82,7 @@ $ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
 ## Code Style
 > TODO  
 
-We use `pylint` for code formatting. Setup a precommit hook like this:
-```bash
-$ mv .git/hooks/pre-commit.sample .git/hooks/pre-commit
-$ cat > .git/hooks/pre-commit << EOF
-#!/usr/bin/env bash
-git-pylint-commit-hook
-EOF
-$ chmod +x .git/hooks/pre-commit
-```
+We use `pylint` for code checking and `black` for formatting in our dev pipeline. Execute `pre-commit install` to install git hooks in your .git/ directory.
 
 ## Tests
 ```bash
