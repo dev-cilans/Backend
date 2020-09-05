@@ -9,8 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from .v1.service import Comment, Transcript, Video, Ner, WordCloud
-from settings import *
+from v1.service import Comment, Transcript, Video, Ner, WordCloud
+import settings
 
 app = FastAPI()
 
@@ -29,9 +29,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+DEVELOPER_KEY = "AIzaSyC2gP7-BiIDFEEZ9nnRXdnKVAII5mmw2os"
 yt_api_config = build(
-    serviceName="youtube", version="v3", developerKey=settings.api_key
+    serviceName="youtube", version="v3", developerKey=DEVELOPER_KEY
 )
 
 
@@ -125,34 +125,7 @@ async def emotions(video_id: str):
 async def ner(video_id: str):
     video_ner = Ner(video_id)
     try:
-        ners = {"video_id": video_id, "entity": []}
-        ners_list = video_ner.get_ner()
-        label_list = []
-        j = 1
-        for (_, label) in ners_list:
-            Available = False
-            for i in range(len(label_list)):
-                if label == label_list[i]:
-                    Available = True
-                    break
-            if not Available:
-                label_list.append(label)
-                ners["entity"].append({"label" + str(j): label, "text": []})
-                j = j + 1
-        for (text, label) in ners_list:
-            label_num = 0
-            for k in range(len(label_list)):
-                if label_list[k] == label:
-                    label_num = k + 1
-                    break
-            text_Available = False
-            for a in range(len(ners["entity"][label_num - 1]["text"])):
-                if text == ners["entity"][label_num - 1]["text"][a]:
-                    text_Available = True
-                    break
-            if not text_Available:
-                ners["entity"][label_num - 1]["text"].append(text)
-
+        ners = video_ner.get_ner()
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=ners)
@@ -172,10 +145,7 @@ async def lda(video_id: str):
 async def wordcloud(video_id: str):
     wc = WordCloud(video_id)
     try:
-        data = {"video_id": video_id, "cloud": []}
-        word_list = wc.get()
-        for (word, frequency) in word_list:
-            data["cloud"].append({"word": word, "frequency": frequency})
+        data = wc.get()
     except:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=data)
