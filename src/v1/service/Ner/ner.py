@@ -25,8 +25,8 @@ class Ner:
                 segments.append(line)
                 transcript = " ".join(segments)
             return transcript
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(e)
             return None
 
     def nerd_ner(self, document):
@@ -37,7 +37,10 @@ class Ner:
 
     def get_ner(self):
         """ main method """
-        video_transcript = self.get_transcript(self.video_id)
+        try:
+            video_transcript = self.get_transcript(self.video_id)
+        except:
+            return{"Status":500,"error":"Some features of this video are disabled by youtube."}
         ner_nerd = self.nerd_ner(video_transcript)
         ners = {"video_id": self.video_id, "entity": []}
         ners_list = ner_nerd

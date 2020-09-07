@@ -27,9 +27,9 @@ class WordCloud:
 
             transcript = " ".join(segments)
             return transcript
-        except:
-            print("An exception occurred")
-        return None
+        except Exception as e:
+            print(e)
+            return None
 
     def word_cloud(self, document):
         """ function to get the word cloud """
@@ -42,10 +42,15 @@ class WordCloud:
 
     def get(self):
         """ main method """
-        video_transcript = self.get_transcript(self.video_id)
-        video_transcript = video_transcript.lower()
-        data = {"video_id": self.video_id, "cloud": []}
-        word_list = self.word_cloud(video_transcript)
-        for (word, frequency) in word_list:
-            data["cloud"].append({"word": word, "frequency": frequency})
-        return data
+        try:
+            video_transcript = self.get_transcript(self.video_id)
+            video_transcript = video_transcript.lower()
+            print("here")
+            data = {"video_id": self.video_id, "cloud": []}
+            word_list = self.word_cloud(video_transcript)
+            for (word, frequency) in word_list:
+                data["cloud"].append({"word": word, "frequency": frequency})
+            return data
+        except:
+            return {"Status":500,"error":"Some features of this video are disabled by youtube."}
+

@@ -145,6 +145,7 @@ async def lda(video_id: str):
 async def wordcloud(video_id: str):
     wc = WordCloud(video_id)
     try:
+        print(wc.get())
         data = wc.get()
     except:
         raise VideoException(video_id=video_id)
