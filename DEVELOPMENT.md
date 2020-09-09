@@ -43,7 +43,7 @@ $ tree
     |-- integration # integration tests with nlp and frontend repo
     |-- load
     |   `-- async_test_using_multithreading.py
-    `-- unit # sepearte tests for each service
+    `-- unit # separate tests for each service
         |-- test_main.py
         `-- test_response
             |-- keywords_response.txt
@@ -95,10 +95,3 @@ $ pytest
 $ # load test
 $ python tests/load/async_test_using_multithreading.py
 ```
-
-
-
-
-
-
-
