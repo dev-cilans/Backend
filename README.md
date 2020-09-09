@@ -21,6 +21,10 @@ $ docker run --detach --name ynlp-backend-prod --publish 8000:8000 ynlp
 ## API Reference
 https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1
 
+#API Schemas
+Phase 1: https://docs.google.com/document/d/1DWqhxgdrmRKaZlzZC51wHVEinQnr3FYpvMS31ZwiIXE/edit?usp=sharing
+Phase 2: https://docs.google.com/document/d/1c_qdEpR_0kZLEay5vT7MR33b897cJi8aEv4eZpSma_o/edit?usp=sharing
+
 ## Examples
 
 | Environment | Host | Example video_id
