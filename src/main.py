@@ -53,40 +53,36 @@ async def video_exception_handler(request: Request, exc: VideoException):
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
     video = Video(yt_api_config, video_id)
-    try:
-        details = jsonable_encoder(video.get_details())
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    details = jsonable_encoder(video.get_details())
     return JSONResponse(content=details)
 
 
 @app.get("/video/{video_id}/description")
 async def video_description(video_id: str):
     video = Video(yt_api_config, video_id)
-    try:
-        description = jsonable_encoder(video.get_description())
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    description = jsonable_encoder(video.get_description())
     return JSONResponse(content=description)
 
 
 @app.get("/video/{video_id}/keywords")
 async def video_keywords(video_id: str):
     video = Video(yt_api_config, video_id)
-    try:
-        keywords = jsonable_encoder(video.get_keywords())
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    keywords = jsonable_encoder(video.get_keywords())
     return JSONResponse(content=keywords)
 
 
 @app.get("/transcripts/{video_id}")
 async def transcripts(video_id: str):
     transcript = Transcript(video_id)
-    transcripts = jsonable_encoder(transcript.get_list())
-    # wrong video_url is handled by get_list
-    if transcripts is None:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    transcripts = jsonable_encoder(transcript.get_list())
     return JSONResponse(content=transcripts)
 
 
@@ -108,11 +104,9 @@ async def controversial(video_id: str):
 @app.get("/comments/{video_id}")
 async def comments(video_id: str):
     comment = Comment(yt_api_config, video_id)
-    comments = jsonable_encoder(comment.get_all_comments())
-
-    if comments is None:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
-
+    comments = jsonable_encoder(comment.get_all_comments())
     return JSONResponse(content=comments)
 
 
@@ -124,10 +118,9 @@ async def emotions(video_id: str):
 @app.get("/ner/{video_id}")
 async def ner(video_id: str):
     video_ner = Ner(video_id)
-    try:
-        ners = video_ner.get_ner()
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    ners = video_ner.get_ner()
     return JSONResponse(content=ners)
 
 
@@ -144,11 +137,9 @@ async def lda(video_id: str):
 @app.get("/word-cloud/{video_id}")
 async def wordcloud(video_id: str):
     wc = WordCloud(video_id)
-    try:
-        print(wc.get())
-        data = wc.get()
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    data = wc.get()
     return JSONResponse(content=data)
 
 
