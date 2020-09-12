@@ -9,8 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from .v1.service import Comment, Transcript, Video, Ner, WordCloud
-from settings import *
+from v1.service import Comment, Transcript, Video, Ner, WordCloud
+from settings import settings
 
 app = FastAPI()
 
@@ -28,7 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 yt_api_config = build(
     serviceName="youtube", version="v3", developerKey=settings.api_key
