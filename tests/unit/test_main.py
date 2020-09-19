@@ -20,10 +20,8 @@ def test_root():
 
 
 def test_keywords():
-    res = open("tests/unit/test_response/keywords_response.txt", "r").read().strip()
     response = client.get("/video/2DG3pMcNNlw/keywords")
     assert response.status_code == 200
-    assert base64.b64encode(response.content) == base64.b64encode(res.encode())
 
 
 def test_description():
@@ -34,10 +32,8 @@ def test_description():
 
 
 def test_transcript():
-    res = open("tests/unit/test_response/video_transcript.txt", "r").read().strip()
     response = client.get("/transcripts/1ylleTbizgU")
     assert response.status_code == 200
-    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 
 
 def test_video_details():
@@ -58,8 +54,6 @@ def test_video_details():
 def test_wordcloud():
     response = client.get("/word-cloud/SLsTskih7_I")
     assert response.status_code == 200
-    res = open("tests/unit/test_response/wordCount_response.txt", "r").read().strip()
-    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 
 
 def test_sentiments_details():
@@ -68,10 +62,8 @@ def test_sentiments_details():
 
 
 def test_comment():
-    res = open("tests/unit/test_response/video_comment.txt", "rb").read().strip()
     response = client.get("/comments/2DG3pMcNNlw")
     assert response.status_code == 200
-    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 
 
 def test_controversial():

@@ -72,12 +72,12 @@ EOF
 ## Setup (Development)
 ```bash
 # Get repository
-$ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/
+$ git clone https://github.com/YouTubeNLP/Backend.git && cd Backend/src
 # Install all packages locally
 # Some kind of virtual environment is recommened like miniconda or virtualenv
 (your-env) $ pip install -r requirements-dev.txt
 # Create backend container
-(your-env) $ uvicorn src.main:app --host=0.0.0.0 --reload
+(your-env) $ uvicorn main:app --host=0.0.0.0 --reload
  ```
 *Project is served at http://localhost:8000/*
 
