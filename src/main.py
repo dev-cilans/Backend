@@ -214,7 +214,7 @@ async def root(request: Request):
         "video_service": {
             "description": "Returns various video information",
             "details": {
-                "description": "Returns various details related to video",
+                "description": "Returns various detials related to video",
                 "endpoint": f"{base_url}video/{{video_id}}",
             },
             "description": {
