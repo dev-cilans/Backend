@@ -127,37 +127,9 @@ async def emotions(video_id: str):
 @app.get("/ner/{video_id}")
 async def ner(video_id: str):
     video_ner = Ner(video_id)
-    try:
-        ners = {"video_id": video_id, "entity": []}
-        ners_list = video_ner.get_ner()
-        label_list = []
-        j = 1
-        for (_, label) in ners_list:
-            Available = False
-            for i in range(len(label_list)):
-                if label == label_list[i]:
-                    Available = True
-                    break
-            if not Available:
-                label_list.append(label)
-                ners["entity"].append({"label" + str(j): label, "text": []})
-                j = j + 1
-        for (text, label) in ners_list:
-            label_num = 0
-            for k in range(len(label_list)):
-                if label_list[k] == label:
-                    label_num = k + 1
-                    break
-            text_Available = False
-            for a in range(len(ners["entity"][label_num - 1]["text"])):
-                if text == ners["entity"][label_num - 1]["text"][a]:
-                    text_Available = True
-                    break
-            if not text_Available:
-                ners["entity"][label_num - 1]["text"].append(text)
-
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    ners = video_ner.get_ner()
     return JSONResponse(content=ners)
 
 
@@ -174,14 +146,11 @@ async def lda(video_id: str):
 @app.get("/word-cloud/{video_id}")
 async def wordcloud(video_id: str):
     wc = WordCloud(video_id)
-    try:
-        data = {"video_id": video_id, "cloud": []}
-        word_list = wc.get()
-        for (word, frequency) in word_list:
-            data["cloud"].append({"word": word, "frequency": frequency})
-    except:
+    if(len(video_id)!= 11):
         raise VideoException(video_id=video_id)
+    data = wc.get()
     return JSONResponse(content=data)
+
 
 
 @app.get("/")
