@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video, Ner, WordCloud
+from v1.service import Comment, Transcript, Video, Ner, WordCloud , Sentiment
 from settings import settings
 
 app = FastAPI()
@@ -93,10 +93,14 @@ async def transcripts(video_id: str):
 async def sentiments(video_id: str):
     pass
 
+@app.get("/sentiments/{video_id}/{number_max_comments_for_analysis}")
+async def sentiments_details(video_id: str,number_max_comments_for_analysis: int):
+    sentiments = Sentiment(video_id,number_max_comments_for_analysis,yt_api_config)
+    sentiment = jsonable_encoder(sentiments.get())
+    if sentiment is None:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=sentiment)
 
-@app.get("/sentiments/{video_id}")
-async def sentiments_details(video_id: str):
-    pass
 
 
 @app.get("/comments/{video_id}/controversial")
@@ -232,6 +236,10 @@ async def root(request: Request):
             "Word-Cloud": {
                 "description": "Return Words frequency",
                 "endpoint": f"{base_url}word-cloud/{{video_id}}",
+            },
+	   "Comment-Sentiment-Analysis": {
+                "description": "Return comment sentiments ananlysis ",
+                "endpoint": f"{base_url}sentiment/{{video_id}}{{/number_of_comments_for_analysis}}",
             },
         },
     }
