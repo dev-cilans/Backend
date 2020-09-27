@@ -203,7 +203,7 @@ async def root(request: Request):
                 "endpoint": [f"{base_url}docs", f"{base_url}redoc"],
             },
             "dev": {
-                "description": "Returns standard API refrence",
+                "description": "Returns standard API reference",
                 "endpoint": "https://app.swaggerhub.com/apis-docs/youtubenlp/backend/0.0.1",
             },
         },
