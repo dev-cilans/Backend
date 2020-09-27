@@ -52,33 +52,35 @@ def test_video_details():
 
 
 def test_wordcloud():
-    response = client.get("/word-cloud/SLsTskih7_I")
+    res = open("tests/unit/test_response/word-cloud.txt", "r").read().strip()
+    response = client.get("/word-cloud/ALtFCxPGVC4")
     assert response.status_code == 200
+    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 
 
-def test_sentiments_details():
-    response = client.get("/sentiments/2DG3pMcNNlw")
-    assert response.status_code == 200
+#def test_sentiments_details():
+#    response = client.get("/sentiments/2DG3pMcNNlw")
+#    assert response.status_code == 200
 
 
-def test_comment():
-    response = client.get("/comments/2DG3pMcNNlw")
-    assert response.status_code == 200
+#def test_comment():
+#    response = client.get("/comments/2DG3pMcNNlw")
+#    assert response.status_code == 200
 
 
-def test_controversial():
-    response = client.get("/comments/2DG3pMcNNlw/controversial")
-    assert response.status_code == 200
+#def test_controversial():
+#    response = client.get("/comments/2DG3pMcNNlw/controversial")
+#    assert response.status_code == 200
 
 
-def test_emotions():
-    response = client.get("/emotions/2DG3pMcNNlw/score")
-    assert response.status_code == 200
+#def test_emotions():
+#    response = client.get("/emotions/2DG3pMcNNlw/score")
+#    assert response.status_code == 200
 
 
-def test_lda():
-    response = client.get("/lda/2DG3pMcNNlw")
-    assert response.status_code == 200
+#def test_lda():
+#    response = client.get("/lda/2DG3pMcNNlw")
+#    assert response.status_code == 200
 
 
 def test_ner():
@@ -88,11 +90,16 @@ def test_ner():
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 
 
-def test_ner_targeted():
-    response = client.get("/ner/2DG3pMcNNlw/targeted")
-    assert response.status_code == 200
+#def test_ner_targeted():
+#    response = client.get("/ner/2DG3pMcNNlw/targeted")
+#    assert response.status_code == 200
 
 
-def test_sentiments_score():
-    response = client.get("/sentiments/2DG3pMcNNlw/score")
+#def test_sentiments_score():
+#    response = client.get("/sentiments/2DG3pMcNNlw/score")
+#    assert response.status_code == 200
+def test_comments_sentiments():
+    res = open("tests/unit/test_response/comment_sentiments.txt", "r").read().strip()
+    response = client.get("/sentiments/ALtFCxPGVC4/10")
     assert response.status_code == 200
+    assert base64.b64encode(res.encode()) == base64.b64encode(response.content)

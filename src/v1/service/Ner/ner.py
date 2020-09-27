@@ -25,8 +25,8 @@ class Ner:
                 segments.append(line)
                 transcript = " ".join(segments)
             return transcript
-        except:
-            print("An exception occurred")
+        except Exception as e:
+            print(e)
             return None
 
     def nerd_ner(self, document):
@@ -37,6 +37,36 @@ class Ner:
 
     def get_ner(self):
         """ main method """
-        video_transcript = self.get_transcript(self.video_id)
+        try:
+            video_transcript = self.get_transcript(self.video_id)
+        except:
+            return{"Status":500,"error":"Some features of this video are disabled by youtube."}
         ner_nerd = self.nerd_ner(video_transcript)
-        return ner_nerd
+        ners = {"video_id": self.video_id, "entity": []}
+        ners_list = ner_nerd
+        label_list = []
+        j = 1
+        for (_, label) in ners_list:
+            Available = False
+            for i in range(len(label_list)):
+                if label == label_list[i]:
+                    Available = True
+                    break
+            if not Available:
+                label_list.append(label)
+                ners["entity"].append({"label" + str(j): label, "text": []})
+                j = j + 1
+        for (text, label) in ners_list:
+            label_num = 0
+            for k in range(len(label_list)):
+                if label_list[k] == label:
+                    label_num = k + 1
+                    break
+            text_Available = False
+            for a in range(len(ners["entity"][label_num - 1]["text"])):
+                if text == ners["entity"][label_num - 1]["text"][a]:
+                    text_Available = True
+                    break
+            if not text_Available:
+                ners["entity"][label_num - 1]["text"].append(text)
+        return ners
