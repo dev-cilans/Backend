@@ -237,8 +237,8 @@ async def root(request: Request):
                 "description": "Return Words frequency",
                 "endpoint": f"{base_url}word-cloud/{{video_id}}",
             },
-	   "Comment-Sentiment-Analysis": {
-                "description": "Return comment sentiments ananlysis ",
+	        "Comment-Sentiment-Analysis": {
+                "description": "Return comment sentiments analysis",
                 "endpoint": f"{base_url}sentiment/{{video_id}}{{/number_of_comments_for_analysis}}",
             },
         },
