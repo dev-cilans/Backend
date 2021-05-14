@@ -57,10 +57,10 @@ def test_wordcloud():
     assert response.status_code == 200
     assert base64.b64encode(res.encode()) == base64.b64encode(response.content)
 
+def test_sentiments_details():
+    response = client.get("/sentiments/2DG3pMcNNlw/20")
+    assert response.status_code == 200
 
-#def test_sentiments_details():
-#    response = client.get("/sentiments/2DG3pMcNNlw")
-#    assert response.status_code == 200
 
 
 #def test_comment():
