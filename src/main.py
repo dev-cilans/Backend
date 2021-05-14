@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video, Ner, WordCloud , Sentiment
+from v1.service import Comment, Transcript, Video, Ner, WordCloud, Sentiment
 from settings import settings
 
 app = FastAPI()
@@ -45,7 +45,8 @@ class VideoException(Exception):
 async def video_exception_handler(request: Request, exc: VideoException):
     return JSONResponse(
         status_code=400,
-        content={"status": 400, "error": f"{exc.video_id} is an invalid video url"},
+        content={"status": 400,
+                 "error": f"{exc.video_id} is an invalid video url"},
     )
 
 
@@ -93,14 +94,15 @@ async def transcripts(video_id: str):
 async def sentiments(video_id: str):
     pass
 
+
 @app.get("/sentiments/{video_id}/{number_max_comments_for_analysis}")
-async def sentiments_details(video_id: str,number_max_comments_for_analysis: int):
-    sentiments = Sentiment(video_id,number_max_comments_for_analysis,yt_api_config)
+async def sentiments_details(video_id: str, number_max_comments_for_analysis: int):
+    sentiments = Sentiment(
+        video_id, number_max_comments_for_analysis, yt_api_config)
     sentiment = jsonable_encoder(sentiments.get())
     if sentiment is None:
         raise VideoException(video_id=video_id)
     return JSONResponse(content=sentiment)
-
 
 
 @app.get("/comments/{video_id}/controversial")
@@ -127,7 +129,7 @@ async def emotions(video_id: str):
 @app.get("/ner/{video_id}")
 async def ner(video_id: str):
     video_ner = Ner(video_id)
-    if(len(video_id)!= 11):
+    if(len(video_id) != 11):
         raise VideoException(video_id=video_id)
     ners = video_ner.get_ner()
     return JSONResponse(content=ners)
@@ -146,11 +148,10 @@ async def lda(video_id: str):
 @app.get("/word-cloud/{video_id}")
 async def wordcloud(video_id: str):
     wc = WordCloud(video_id)
-    if(len(video_id)!= 11):
+    if(len(video_id) != 11):
         raise VideoException(video_id=video_id)
     data = wc.get()
     return JSONResponse(content=data)
-
 
 
 @app.get("/")
@@ -206,7 +207,7 @@ async def root(request: Request):
                 "description": "Return Words frequency",
                 "endpoint": f"{base_url}word-cloud/{{video_id}}",
             },
-	        "Comment-Sentiment-Analysis": {
+            "Comment-Sentiment-Analysis": {
                 "description": "Return comment sentiments analysis",
                 "endpoint": f"{base_url}sentiment/{{video_id}}{{/number_of_comments_for_analysis}}",
             },
