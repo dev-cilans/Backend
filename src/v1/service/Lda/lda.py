@@ -5,13 +5,16 @@ import nltk
 from youtube_transcript_api import YouTubeTranscriptApi
 
 class LDA:
-    if __name__ == '__main__':
+        
         from new_model import main,preprocess,dictionary,lemmatize_stemming
         import joblib
         global lda_model
         lda_model = joblib.load(main())
-            
-        def retrieve_transcript(video_id):
+         
+        def __init__(self,video_id: str):
+            self.video_id = video_id
+        
+        def retrieve_transcript(self,video_id):
             output = YouTubeTranscriptApi.get_transcript(video_id)
             segments = []
             for e in output:
@@ -25,7 +28,7 @@ class LDA:
             transcript = " ".join(segments)
             return transcript
         
-        def lda(transcript):
+        def lda(self,transcript):
             from new_model import preprocess,dictionary,lemmatize_stemming
             bow_vector = dictionary.doc2bow(preprocess(transcript))
             output = {}
@@ -41,7 +44,7 @@ class LDA:
                     pprint(output,indent=3)
         
         def get(self):
-            video_transcript = self.retrieve_transcript(self.video_id)
+            video_transcript = self.retrieve_transcript(video_id=self.video_id)
             lda = self.lda(video_transcript)
             return lda
             
