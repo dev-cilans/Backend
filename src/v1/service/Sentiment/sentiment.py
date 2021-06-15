@@ -27,7 +27,7 @@ class Sentiment:
             else:
                 return 'Neutral'
             
-    def retrieve_transcript(video_id):
+    def retrieve_transcript(self,video_id):
         output = YouTubeTranscriptApi.get_transcript(video_id)
         segments = []
         for e in output:
@@ -59,26 +59,27 @@ class Sentiment:
                 # Disable OAuthlib's HTTPS verification when running locally.
                 # *DO NOT* leave this option enabled in production.
                 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
-                request = self.youtube.commentThreads().list(
-                        part="snippet,replies",
-                        maxResults=max_comments,
-                        order="relevance",
-                        videoId=video_id)
-                response = request.execute()
-                comment_df = self.json_parser(response)
+                api_service_name="youtube"
+                api_version="v3"
+                DEVELOPER_KEY="AIzaSyDEyoZhTj3wh0B3r3evEmIxI-4g2Aa9-dE"
+                youtube = googleapiclient.discovery.build(api_service_name, api_version, developerKey = DEVELOPER_KEY)
+                
+                request = youtube.commentThreads().list(part="snippet,replies",maxResults=max_comments,order="relevance",videoId=video_id)
+                response=request.execute()
+                comment_df=self.json_parser(response)
                 comment_df['Sentiment'] = comment_df['Comments'].apply(lambda x : self.sentiment_scores(x))
                 return comment_df
-    
+                                                      	
     def transcript_scrapper(self,video_id):
                 transcript=self.retrieve_transcript(video_id=self.video_id)
                 df1 = pd.DataFrame()
                 df1['Transcript'] =transcript
-                df1['Sentiment'] = df1['Transcript'].apply(lambda x : sentiment_scores(x))
+                df1['Sentiment'] = df1['Transcript'].apply(lambda x : self.sentiment_scores(x))
                 return df1
 
     def get(self):
         
-        df1 = self.transcript_scraper(video_id= self.video_id)
+        df1 = self.transcript_scrapper(video_id= self.video_id)
         neutral_trans = df1[df1['Sentiment'] == 'Neutral']['Transcript']
         negative_trans = df1[df1['Sentiment'] == 'Negative']['Transcript']
         positive_trans = df1[df1['Sentiment'] == 'Positive']['Transcript']
@@ -96,6 +97,7 @@ class Sentiment:
         
         a=len(neutral_comms)+len(negative_comms)+len(positive_comments)
         final_json = dict({"positive" : round(len(positive_comments)/a,3), "negative" : round(len(negative_comms)/a,3), "neutral" : round(len(neutral_comms)/a,3) })
-	    print("\tComments:")
+        print("\tComments:")
         print(json.dumps(final_json,indent=4)) #The final json file which contains comments categorized into json/dict with positive,negative and neutral keys
-        print("\n}")        
+        print("\n}")   
+        
