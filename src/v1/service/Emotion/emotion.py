@@ -69,30 +69,30 @@ class Emotion:
                 label = dec[0]
                 return label
 
-            global l
-            l=[]
+            global outputlist
+            outputlist=[]
             for i in range(0,len(output)):   
-                l.append(token(output[i]))
-            l= [w.replace('<pad>', '') for w in l]    
-            l= [w.replace(' ', '') for w in l]
+                outputlist.append(token(output[i]))
+            outputlist= [w.replace('<pad>', '') for w in outputlist]    
+            outputlist= [w.replace(' ', '') for w in outputlist]
             
             global colors_dict
             colors_dict = {}
-            for c in range(len(l)):
-                colors_dict[l[c]] = l.count(l[c])
+            for c in range(len(outputlist)):
+                colors_dict[outputlist[c]] = outputlist.count(outputlist[c])
                 
-            global s
-            s= list(colors_dict.values())
+            global emojidictvalue
+            emojidictvalue= list(colors_dict.values())
             
-            global k
-            k=[]
-            k= list(colors_dict.keys())
-            normalizer = 1 / float( sum(s))
-            numListNormalized = [x * normalizer for x in s]
+            global emojidict
+            emojidict=[]
+            emojidict= list(colors_dict.keys())
+            normalizer = 1 / float( sum(emojidictvalue))
+            numListNormalized = [x * normalizer for x in emojidictvalue]
 
             final_dict={}
-            for i in range(len(k)):
-                final_dict[k[i]]=numListNormalized[i]
+            for i in range(len(emojidict)):
+                final_dict[emojidict[i]]=numListNormalized[i]
             return final_dict
 
       
