@@ -44,7 +44,7 @@ class LDA:
                             "score" : score,
                             "words" : word_list
                             }        
-                        pprint(output,indent=3)
+                        
         
         def get(self):
             video_transcript = self.retrieve_transcript(video_id=self.video_id)
