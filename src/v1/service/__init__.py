@@ -6,3 +6,4 @@ from .Sentiment import Sentiment
 from .Transcript import Transcript
 from .Video import Video
 from .WordCloud import WordCloud
+from .Summarization import Summarization
