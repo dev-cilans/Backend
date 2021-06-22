@@ -30,6 +30,23 @@ class Emotion:
         result=result.lower()
         return result
         
+    def token(self, text):
+        '''
+        function to encoding and decoding the text
+
+        parameters: 
+        text(string)=transcript of the url index wise
+
+        returns:
+        label(string)= decoded text for the final output
+
+        '''
+        input_ids = tokenizer.encode(text + '</s>', return_tensors='pt')
+        output = model.generate(input_ids=input_ids,max_length=2)
+        dec = [tokenizer.decode(ids) for ids in output]
+        label = dec[0]
+        return label
+    
     def emotion(self, output):
         '''
         function to get dictionary of emotions
@@ -52,27 +69,11 @@ class Emotion:
             for i in range(len(output)):
                 output[i] = convert(output[i])
 
-            def token(text):
-                '''
-                function to encoding and decoding the text
-
-                parameters: 
-                text(string)=transcript of the url index wise
-
-                returns:
-                label(string)= decoded text for the final output
-
-                '''
-                input_ids = tokenizer.encode(text + '</s>', return_tensors='pt')
-                output = model.generate(input_ids=input_ids,max_length=2)
-                dec = [tokenizer.decode(ids) for ids in output]
-                label = dec[0]
-                return label
 
             global outputlist
             outputlist=[]
             for i in range(0,len(output)):   
-                outputlist.append(token(output[i]))
+                outputlist.append(self.token(output[i]))
             outputlist= [w.replace('<pad>', '') for w in outputlist]    
             outputlist= [w.replace(' ', '') for w in outputlist]
             
@@ -103,5 +104,5 @@ class Emotion:
             emotion_list = self.emotion(video_transcript)
             return emotion_list
 
-        except:    
-            return {"Status":500,"error":"Some features of this video are disabled by youtube."}
+        except:
+            return None
