@@ -1,2 +1,0 @@
-youtube-transcript-api==0.4.1
-transformers==4.6.1
