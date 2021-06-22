@@ -92,7 +92,12 @@ async def transcripts(video_id: str):
 
 @app.get("/sentiments/{video_id}/score")
 async def sentiments(video_id: str):
-    pass
+    sentiments = Sentiment(
+        video_id=video_id, max_num=None, youtube_obj=yt_api_config)
+    sentiment = jsonable_encoder(sentiments.get_aggregate_analysis())
+    if sentiment is None:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=sentiment)
 
 
 @app.get("/sentiments/{video_id}/{number_max_comments_for_analysis}")
