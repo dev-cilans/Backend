@@ -1,3 +1,4 @@
+from re import S
 import sys
 
 from fastapi import FastAPI, Request, Response, HTTPException
@@ -9,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video, Ner, WordCloud, Sentiment
+from v1.service import Comment, Transcript, Video, Ner, WordCloud, Sentiment, Lda, Summarization
 from settings import settings
 
 app = FastAPI()
@@ -49,6 +50,20 @@ async def video_exception_handler(request: Request, exc: VideoException):
                  "error": f"{exc.video_id} is an invalid video url"},
     )
 
+class SummaryException(Exception):
+    """ Handles exceptions for non-summarizable """
+
+    def __init__(self, video_id: str):
+        self.video_id = video_id
+
+
+@app.exception_handler(SummaryException)
+async def video_exception_handler(request: Request, exc: SummaryException):
+    return JSONResponse(
+        status_code=400,
+        content={"status": 400,
+                 "error": f"{exc.video_id} is not summarizable."},
+    )
 
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
@@ -89,10 +104,23 @@ async def transcripts(video_id: str):
         raise VideoException(video_id=video_id)
     return JSONResponse(content=transcripts)
 
+@app.get("/transcripts/{video_id}/summary")
+async def transcripts_summary(video_id: str):
+    summarization = Summarization(video_id)
+    video_transcript = summarization.get_transcript()
+    summary = summarization.summarize_bert(video_transcript)
+    if summary is None:
+        raise SummaryException(video_id=video_id)
+    return JSONResponse(content=summary)
 
 @app.get("/sentiments/{video_id}/score")
 async def sentiments(video_id: str):
-    pass
+    sentiments = Sentiment(
+        video_id=video_id, max_num=None, youtube_obj=yt_api_config)
+    sentiment = jsonable_encoder(sentiments.get_aggregate_analysis())
+    if sentiment is None:
+        raise VideoException(video_id=video_id)
+    return JSONResponse(content=sentiment)
 
 
 @app.get("/sentiments/{video_id}/{number_max_comments_for_analysis}")
@@ -142,7 +170,11 @@ async def ner_targeted(video_id: str):
 
 @app.get("/lda/{video_id}")
 async def lda(video_id: str):
-    pass
+    video_lda = Lda(video_id)
+    if(len(video_id) != 11):
+        raise VideoException(video_id=video_id)
+    topics = video_lda.get_topics()
+    return JSONResponse(content=topics)
 
 
 @app.get("/word-cloud/{video_id}")
