@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from googleapiclient.discovery import build
 
-from v1.service import Comment, Transcript, Video, Ner, WordCloud, Sentiment
+from v1.service import Comment, Transcript, Video, Ner, WordCloud, Sentiment, Lda
 from settings import settings
 
 app = FastAPI()
@@ -142,7 +142,11 @@ async def ner_targeted(video_id: str):
 
 @app.get("/lda/{video_id}")
 async def lda(video_id: str):
-    pass
+    video_lda = Lda(video_id)
+    if(len(video_id) != 11):
+        raise VideoException(video_id=video_id)
+    topics = video_lda.get_topics()
+    return JSONResponse(content=topics)
 
 
 @app.get("/word-cloud/{video_id}")

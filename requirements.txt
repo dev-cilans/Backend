@@ -34,9 +34,9 @@ gensim==3.8.3
 gevent==20.6.2
 git-pylint-commit-hook==2.5.1
 google-api-core==1.22.0
-google-api-python-client==1.10.0
+google-api-python-client==2.8.0
 google-auth==1.20.0
-google-auth-httplib2==0.0.4
+google-auth-httplib2==0.1.0
 google-auth-oauthlib==0.4.1
 google-pasta==0.2.0
 googleapis-common-protos==1.52.0
@@ -139,6 +139,6 @@ websockets==9.1
 Werkzeug==1.0.1
 wrapt==1.12.1
 yarg==0.1.9
-youtube-transcript-api==0.3.1
+youtube-transcript-api==0.4.1
 zope.event==4.4
 zope.interface==5.1.0
