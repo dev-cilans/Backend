@@ -2,10 +2,11 @@ from youtube_transcript_api import YouTubeTranscriptApi
 from collections import Counter
 from nltk.corpus import stopwords
 from nltk.tokenize import RegexpTokenizer
+import nltk
 import json
 import argparse
 
-
+nltk.download('stopwords')
 class WordCloud:
     """ Description of Service """
 
@@ -45,12 +46,11 @@ class WordCloud:
         try:
             video_transcript = self.get_transcript(self.video_id)
             video_transcript = video_transcript.lower()
-            print("here")
             data = {"video_id": self.video_id, "cloud": []}
             word_list = self.word_cloud(video_transcript)
             for (word, frequency) in word_list:
                 data["cloud"].append({"word": word, "frequency": frequency})
             return data
-        except:
+        except Exception as e:
             return {"Status":500,"error":"Some features of this video are disabled by youtube."}
 
