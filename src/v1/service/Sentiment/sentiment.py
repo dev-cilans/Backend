@@ -102,5 +102,5 @@ class Sentiment:
         }
         output["Transcript"] = final_json_trans
         output["Comments"] = final_json_comms
-        pprint(output, indent=1, width=1, compact=False) 
+        return output
         
