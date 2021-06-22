@@ -76,7 +76,7 @@ class Sentiment:
         transcript=self.retrieve_transcript(video_id=self.video_id)
         transcript_df = pd.DataFrame()
         transcript_df['Transcript'] = transcript
-        transcript_df['Sentiment'] = transcript_df['Transcript'].apply(lambda x: sentiment_scores(x))
+        transcript_df['Sentiment'] = transcript_df['Transcript'].apply(lambda x: self.sentiment_scores(x))
         return transcript_df
 
     def get(self):
