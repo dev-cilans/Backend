@@ -116,8 +116,16 @@ class Sentiment:
         return transcript_df
 
     def get_aggregate_analysis(self):
+        output = {
+            "Transcript": {},
+            "Comments": {}
+        }
+        try:
+            transcript_df = self.transcript_scrapper(video_id=self.video_id)
+        except Exception as e:
+            return output
 
-        transcript_df = self.transcript_scrapper(video_id=self.video_id)
+            
         neutral_trans = transcript_df[transcript_df['Sentiment']
                                       == 'Neutral']['Transcript']
         negative_trans = transcript_df[transcript_df['Sentiment']
@@ -142,10 +150,6 @@ class Sentiment:
             len(positive_comments)
         final_json_comms = dict({"positive": round(len(positive_comments)/comms_len, 3), "negative": round(
             len(negative_comms)/comms_len, 3), "neutral": round(len(neutral_comms)/comms_len, 3)})
-        output = {
-            "Transcript": {},
-            "Comments": {}
-        }
         output["Transcript"] = final_json_trans
         output["Comments"] = final_json_comms
         return output

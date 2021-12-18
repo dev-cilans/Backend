@@ -40,9 +40,12 @@ class Ner:
         """ main method """
         try:
             video_transcript = self.get_transcript(self.video_id)
+            ner_nerd = self.nerd_ner(video_transcript)
         except:
-            return{"Status":500,"error":"Some features of this video are disabled by youtube."}
-        ner_nerd = self.nerd_ner(video_transcript)
+            return {
+                "status":500,
+                "message":"Transcript is empty. Try another video"
+            }
         ners = {"video_id": self.video_id, "entities": []}
 
         label_map = defaultdict(lambda: 0)
@@ -51,13 +54,14 @@ class Ner:
             if label not in label_map.keys():
                 ners["entities"].append({
                     "entity": label, 
-                    "ner": [
+                    "ner": {
                         text
-                    ]
+                    }
                 })
                 label_map[label] = label_count
                 label_count += 1
             else:
                 index = label_map[label]
-                ners["entities"][index]["ner"].append(text)
-        return ners
+                ners["entities"][index]["ner"].add(text)
+        
+        return dict(ners)
