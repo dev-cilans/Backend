@@ -2,7 +2,7 @@ name: Multi threading Load Testing
 
 on:
   push:
-    branch: dev
+    branch: [ example ]
 
 jobs:
   test:
