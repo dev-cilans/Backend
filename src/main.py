@@ -67,6 +67,7 @@ async def video_exception_handler(request: Request, exc: SummaryException):
                  "error": f"{exc.video_id} is not summarizable."},
     )
 
+
 class EmotionNotParsableException(Exception):
     """ Handles exceptions for emotions not parsed from videos. """
 
@@ -81,6 +82,7 @@ async def video_exception_handler(request: Request, exc: EmotionNotParsableExcep
         content={"status": 400,
                  "error": f"{exc.video_id}'s Emotions are not parsable."},
     )
+
 
 @app.get("/video/{video_id}")
 async def video_details(video_id: str):
@@ -126,10 +128,13 @@ async def transcripts(video_id: str):
 async def transcripts_summary(video_id: str):
     summarization = Summarization(video_id)
     video_transcript = summarization.get_transcript()
-    summary = summarization.summarize_bert(video_transcript)
-    if summary is None:
-        raise SummaryException(video_id=video_id)
-    return JSONResponse(content=summary)
+    if video_transcript != None:
+        summary = summarization.summarize_bert(video_transcript)
+        if summary is None:
+            raise SummaryException(video_id=video_id)
+        return JSONResponse(content=summary)
+    else:
+        return 'No Transcript found for this video'
 
 
 @app.get("/sentiments/{video_id}/score")

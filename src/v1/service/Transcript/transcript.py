@@ -42,4 +42,7 @@ class Transcript:
     def get_list(self):
         """ main method """
         video_transcript = self.get_transcript(self.video_id)
-        return self.spacy_segmentation(video_transcript)
+        if video_transcript != None:
+            return self.spacy_segmentation(video_transcript)
+        else:
+            return 'No Transcript found for this video'

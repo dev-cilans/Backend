@@ -43,8 +43,8 @@ class Ner:
             ner_nerd = self.nerd_ner(video_transcript)
         except:
             return {
-                "status":500,
-                "message":"Transcript is empty. Try another video"
+                "status": 500,
+                "message": "Transcript is empty. Try another video"
             }
         ners = {"video_id": self.video_id, "entities": []}
 
@@ -53,15 +53,16 @@ class Ner:
         for (text, label) in ner_nerd:
             if label not in label_map.keys():
                 ners["entities"].append({
-                    "entity": label, 
-                    "ner": {
+                    "entity": label,
+                    "ner": [
                         text
-                    }
+                    ]
                 })
                 label_map[label] = label_count
                 label_count += 1
             else:
                 index = label_map[label]
-                ners["entities"][index]["ner"].add(text)
-        
+                if text not in ners["entities"][index]["ner"]:
+                    ners["entities"][index]["ner"].append(text)
+
         return dict(ners)
